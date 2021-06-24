@@ -1,15 +1,15 @@
-# 큰 수의 법칙
+# 숫자 카드 게임
 import time
 
-n, m, k = map(int, input().split())
-data = list(map(int, input().split()))
+n, m = map(int, input().split())
+data = [list(map(int, input().split())) for _ in range(n)]
 
 start_time = time.time()
 
-data.sort(reverse=True)
-
-result = (data[0] * k + data[1]) * (m // (k + 1)) + data[0] * (m % (k + 1))
-
+result = 0
+for i in range(n):
+    min_value = min(data[i])
+    result = max(result, min_value)
 print(result)
 
 print(f"time: {time.time() - start_time}")
