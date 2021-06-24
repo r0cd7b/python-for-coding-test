@@ -6,14 +6,14 @@ n, k = map(int, input().split())
 start_time = time.time()
 
 result = 0
-while n >= k:
-    a = n % k
-    if a == 0:
-        n //= k
-        result += 1
-    else:
-        n -= a
-        result += a
+while True:
+    target = (n // k) * k
+    result += n - target
+    n = target
+    if n < k:
+        break
+    n //= k
+    result += 1
 result += n - 1
 print(result)
 

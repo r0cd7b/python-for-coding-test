@@ -1,7 +1,7 @@
 # 거스름돈
 import time
 
-n = 1260
+n = int(input())
 
 start_time = time.time()
 
