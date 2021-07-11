@@ -1,4 +1,4 @@
-# 피보나치 수열 소스코드 (재귀적)
+# 호출되는 함수 확인
 import time
 
 start_time = time.time()
@@ -7,6 +7,7 @@ d = [0] * 100
 
 
 def fibo(x):
+    print(f"f({x})", end=' ')
     if x <= 2:
         return 1
     if d[x] <= 0:
@@ -14,6 +15,6 @@ def fibo(x):
     return d[x]
 
 
-print(fibo(99))
+fibo(6)
 
-print(f"time: {time.time() - start_time}")
+print(f"\ntime: {time.time() - start_time}")
