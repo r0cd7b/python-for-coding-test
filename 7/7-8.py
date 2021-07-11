@@ -6,9 +6,11 @@
 """
 import time
 
+n, m = map(int, input().split())
+array = list(map(int, input().split()))
+
 start_time = time.time()
-n, m = map(int, "4 6".split())
-array = list(map(int, "19 15 10 17".split()))
+
 result = 0
 start = 0
 end = max(array)
@@ -24,4 +26,5 @@ while start <= end:
     else:
         end = mid - 1
 print(result)
+
 print(f"time: {time.time() - start_time}")
