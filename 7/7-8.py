@@ -9,7 +9,6 @@ import time
 start_time = time.time()
 n, m = map(int, "4 6".split())
 array = list(map(int, "19 15 10 17".split()))
-
 result = 0
 start = 0
 end = max(array)
