@@ -5,11 +5,12 @@
 """
 import time
 
-n, m = map(int, input().split())
-array = list(map(int, input().split()))
+input_1 = input()
+input_2 = input()
 
 start_time = time.time()
-
+n, m = map(int, input_1.split())
+array = list(map(int, input_2.split()))
 result = 0
 start = 0
 end = max(array)
@@ -25,5 +26,4 @@ while start <= end:
     else:
         end = mid - 1
 print(result)
-
 print(f"time: {time.time() - start_time}")
