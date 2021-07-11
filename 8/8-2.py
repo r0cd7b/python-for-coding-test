@@ -14,6 +14,6 @@ def fibo(x):
     return d[x]
 
 
-print(fibo(37))
+print(fibo(99))
 
 print(f"time: {time.time() - start_time}")
