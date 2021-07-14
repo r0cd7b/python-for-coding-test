@@ -1,8 +1,8 @@
 # 개미 전사
 import time
 
-input_1 = "8"
-input_2 = "5 4 0 2 3 2 8 2"
+input_1 = "4"
+input_2 = "1 3 1 5"
 
 start_time = time.time()
 
