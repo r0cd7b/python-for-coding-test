@@ -1,7 +1,7 @@
 # 바닥 공사
 import time
 
-input_1 = "100"
+input_1 = "3"
 
 start_time = time.time()
 
