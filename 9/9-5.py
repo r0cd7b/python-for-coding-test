@@ -30,7 +30,7 @@ def dijkstra(distance, start):
         if distance[now] >= dist:
             for i in graph[now]:
                 cost = dist + i[1]
-                if cost < distance[i[0]]:
+                if distance[i[0]] > cost:
                     distance[i[0]] = cost
                     heapq.heappush(q, (cost, i[0]))
 
@@ -39,7 +39,7 @@ dijkstra(distance, start - 1)
 count = 0
 max_distance = 0
 for d in distance:
-    if d < INF:
+    if INF > d:
         count += 1
         max_distance = max(max_distance, d)
 print(count - 1, max_distance)
