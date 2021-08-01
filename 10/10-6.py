@@ -13,23 +13,13 @@
 from sys import stdin
 from collections import deque
 
-input = stdin.readline
-v, e = map(int, input().split())
-in_degree = [0] * v
-graph = [[] for _ in range(v)]
-for _ in range(e):
-    a, b = map(int, input().split())
-    b -= 1
-    graph[a - 1].append(b)
-    in_degree[b] += 1
 
-
-def topology_sort():
-    result = []
+def topology_sort(in_degree, graph):
     q = deque()
     for i in range(v):
         if in_degree[i] == 0:
             q.append(i)
+    result = []
     while q:
         now = q.popleft()
         result.append(now)
@@ -42,4 +32,13 @@ def topology_sort():
     print()
 
 
-topology_sort()
+input = stdin.readline
+v, e = map(int, input().split())
+in_degree = [0] * v
+graph = [[] for _ in range(v)]
+for _ in range(e):
+    a, b = map(int, input().split())
+    b -= 1
+    in_degree[b] += 1
+    graph[a - 1].append(b)
+topology_sort(in_degree, graph)

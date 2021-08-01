@@ -9,7 +9,6 @@
 0 4 2
 0 1 1
 1 1 1
-
 """
 from sys import stdin
 

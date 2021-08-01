@@ -20,14 +20,12 @@ def union_parent(parent, a, b):
     b = find_parent(parent, b)
     if a < b:
         parent[b] = a
-    else:
+    elif a > b:
         parent[a] = b
 
 
 v, e = map(int, stdin.readline().split())
-parent = [0] * v
-for i in range(v):
-    parent[i] = i
+parent = [i for i in range(v)]
 for i in range(e):
     a, b = map(int, stdin.readline().split())
     union_parent(parent, a - 1, b - 1)

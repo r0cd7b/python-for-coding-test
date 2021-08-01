@@ -1,15 +1,18 @@
-# 크루스칼 알고리즘 소스코드
+# 도시 분할 계획
 """
-7 9
-1 2 29
-1 5 75
-2 3 35
-2 6 34
-3 4 7
-4 6 23
-4 7 13
-5 6 53
-6 7 25
+7 12
+1 2 3
+1 3 2
+3 2 1
+2 5 2
+3 4 4
+7 3 6
+5 1 5
+1 6 2
+6 4 1
+6 5 3
+4 5 3
+6 7 4
 """
 from sys import stdin
 
@@ -30,16 +33,18 @@ def union_parent(parent, a, b):
 
 
 input = stdin.readline
-v, e = map(int, input().split())
+n, m = map(int, input().split())
 edges = []
-for _ in range(e):
-    a, b, cost = map(int, input().split())
-    edges.append((cost, a - 1, b - 1))
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    edges.append((c, a - 1, b - 1))
 edges.sort()
-parent = [i for i in range(v)]
+parent = [i for i in range(n)]
 result = 0
-for cost, a, b in edges:
+last = 0
+for c, a, b in edges:
     if find_parent(parent, a) != find_parent(parent, b):
         union_parent(parent, a, b)
-        result += cost
-print(result)
+        result += c
+        last = c
+print(result - last)
