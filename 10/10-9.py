@@ -32,8 +32,8 @@ def topology_sort(in_degree):
     while q:
         now = q.popleft()
         for i in graph[now]:
-            result[i] = max(result[i], result[now] + time[i])
             in_degree[i] -= 1
+            result[i] = max(result[i], result[now] + time[i])
             if in_degree[i] == 0:
                 q.append(i)
     for i in range(v):
