@@ -3,46 +3,46 @@ from sys import stdin
 from queue import Queue
 
 n = int(stdin.readline())
-board = [[0] * n for _ in range(n)]
+data = [[0] * n for _ in range(n)]
 
 for _ in range(int(stdin.readline())):
-    apple_x, apple_y = map(int, stdin.readline().split())
-    board[apple_x - 1][apple_y - 1] = 1
+    a, b = map(int, stdin.readline().split())
+    data[a - 1][b - 1] = 1
 
-information = Queue()
+info = Queue()
 for _ in range(int(stdin.readline())):
     x, c = stdin.readline().split()
-    information.put((int(x), c))
+    info.put((int(x), c))
 
-dx, dy = [-1, 0, 1, 0], [0, 1, 0, -1]  # [Up, Right, Down, Left]
+dx, dy = [0, 1, 0, -1], [1, 0, -1, 0]  # [Right, Down, Left, Up]
 
-head_x, head_y, head_direction = 0, 0, 1
+head_x, head_y, head_direction = 0, 0, 0
 snake = Queue()
 snake.put((head_x, head_y))
-board[head_x][head_y] = 2
+data[head_x][head_y] = 2
 
 time = 0
-x, c = information.get()
+x, c = info.get()
 while True:
     if time == x:
         if c == 'L':
             head_direction = (head_direction - 1) % 4
         else:
             head_direction = (head_direction + 1) % 4
-        if not information.empty():
-            x, c = information.get()
+        if not info.empty():
+            x, c = info.get()
             continue
 
     time += 1
     head_x, head_y = head_x + dx[head_direction], head_y + dy[head_direction]
-    if head_x < 0 or head_x >= n or head_y < 0 or head_y >= n or board[head_x][head_y] == 2:
+    if head_x < 0 or head_x >= n or head_y < 0 or head_y >= n or data[head_x][head_y] == 2:
         break
 
-    snake.put((head_x, head_y))
-    if board[head_x][head_y] == 0:
+    if data[head_x][head_y] == 0:
         tail_x, tail_y = snake.get()
-        board[tail_x][tail_y] = 0
-    board[head_x][head_y] = 2
+        data[tail_x][tail_y] = 0
+    snake.put((head_x, head_y))
+    data[head_x][head_y] = 2
 
 print(time)
 
