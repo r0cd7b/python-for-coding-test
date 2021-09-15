@@ -1,10 +1,11 @@
 # 기둥과 보 설치
 def solution(n, build_frame):
-    n += 1
+    n += 5
     wall = [[0b00] * n for _ in range(n)]
     pillar, beam = 0b01, 0b10
 
     for x, y, a, b in build_frame:
+        x, y = x + 2, y + 2
         if a:
             if b:
                 if wall[x][y - 1] & pillar or \
@@ -22,7 +23,7 @@ def solution(n, build_frame):
                     wall[x][y] ^= beam
         else:
             if b:
-                if not y or \
+                if y == 2 or \
                         wall[x][y] & beam or \
                         wall[x - 1][y] & beam or \
                         wall[x][y - 1] & pillar:
@@ -40,12 +41,12 @@ def solution(n, build_frame):
                     wall[x][y] ^= pillar
 
     answer = []
-    for x in range(n):
-        for y in range(n):
+    for x in range(2, n - 2):
+        for y in range(2, n - 2):
             if wall[x][y] & pillar:
-                answer.append([x, y, 0])
+                answer.append([x - 2, y - 2, 0])
             if wall[x][y] & beam:
-                answer.append([x, y, 1])
+                answer.append([x - 2, y - 2, 1])
     return answer
 
 
