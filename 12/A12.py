@@ -1,53 +1,60 @@
 # 기둥과 보 설치
+def possible_pillar(wall, x, y, floor, pillar, beam):
+    if y == floor or wall[x - 1][y] & beam or wall[x][y] & beam or wall[x][y - 1] & pillar:
+        return True
+    return False
+
+
+def possible_beam(wall, x, y, pillar, beam):
+    if wall[x][y - 1] & pillar or wall[x + 1][y - 1] & pillar or wall[x - 1][y] & beam and wall[x + 1][y] & beam:
+        return True
+    return False
+
+
+def make_sure_rules(wall, start, end, floor, pillar, beam):
+    for x in range(start, end):
+        for y in range(start, end):
+            if wall[x][y] & pillar and not possible_pillar(wall, x, y, floor, pillar, beam):
+                return False
+            if wall[x][y] & beam and not possible_beam(wall, x, y, pillar, beam):
+                return False
+    return True
+
+
 def solution(n, build_frame):
-    n += 1
-    wall = [[0b00] * (n + 2) for _ in range(n + 3)]
-    pillar, beam = 0b01, 0b10
+    n += 3
+    wall = [[0b00] * n for _ in range(n)]
+    start, end = 1, n - 1
     floor = 1
+    pillar, beam = 0b01, 0b10
 
     for x, y, a, b in build_frame:
         x, y = x + 1, y + 1
         if a:
             if b:
-                if wall[x][y - 1] & pillar or \
-                        wall[x + 1][y - 1] & pillar or \
-                        wall[x - 1][y] & beam and wall[x + 1][y] & beam:
+                if possible_beam(wall, x, y, pillar, beam):
                     wall[x][y] |= beam
             else:
-                if not (not wall[x - 1][y - 1] & pillar and
-                        not wall[x][y - 1] & pillar and
-                        not wall[x + 1][y - 1] & pillar
-                        or
-                        not wall[x][y - 1] & pillar and
-                        not wall[x + 1][y - 1] & pillar and
-                        not wall[x + 2][y - 1] & pillar):
-                    wall[x][y] ^= beam
+                wall[x][y] ^= beam
+                if not make_sure_rules(wall, start, end, floor, pillar, beam):
+                    wall[x][y] |= beam
         else:
             if b:
-                if y == floor or \
-                        wall[x][y] & beam or \
-                        wall[x - 1][y] & beam or \
-                        wall[x][y - 1] & pillar:
+                if possible_pillar(wall, x, y, floor, pillar, beam):
                     wall[x][y] |= pillar
             else:
-                if not (wall[x][y + 1] & pillar
-                        or
-                        not wall[x - 1][y] & pillar and
-                        wall[x - 1][y + 1] & beam and
-                        not wall[x][y + 1] & beam
-                        or
-                        not wall[x - 1][y + 1] & beam and
-                        wall[x][y + 1] & beam and
-                        not wall[x + 1][y] & pillar):
-                    wall[x][y] ^= pillar
+                wall[x][y] ^= pillar
+                if not make_sure_rules(wall, start, end, floor, pillar, beam):
+                    wall[x][y] |= pillar
 
     answer = []
-    for x in range(1, n + 1):
-        for y in range(1, n + 1):
+    for x in range(start, end):
+        for y in range(start, end):
+            real_x, real_y = x - 1, y - 1
             if wall[x][y] & pillar:
-                answer.append([x - 1, y - 1, 0])
+                answer.append([real_x, real_y, 0])
             if wall[x][y] & beam:
-                answer.append([x - 1, y - 1, 1])
+                answer.append([real_x, real_y, 1])
     return answer
 
 
