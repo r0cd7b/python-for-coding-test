@@ -28,10 +28,10 @@ def solution(n, build_frame):
     floor = 1
     pillar, beam = 0b01, 0b10
 
-    for x, y, a, b in build_frame:
+    for x, y, stuff, operate in build_frame:
         x, y = x + 1, y + 1
-        if a:
-            if b:
+        if stuff:
+            if operate:
                 if possible_beam(wall, x, y, pillar, beam):
                     wall[x][y] |= beam
             else:
@@ -39,7 +39,7 @@ def solution(n, build_frame):
                 if not make_sure_rules(wall, start, end, floor, pillar, beam):
                     wall[x][y] |= beam
         else:
-            if b:
+            if operate:
                 if possible_pillar(wall, x, y, floor, pillar, beam):
                     wall[x][y] |= pillar
             else:
