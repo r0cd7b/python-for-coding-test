@@ -24,11 +24,10 @@ def find_parent(parent, x):
 
 
 def union_parent(parent, a, b):
-    a = find_parent(parent, a)
-    b = find_parent(parent, b)
+    a, b = find_parent(parent, a), find_parent(parent, b)
     if a < b:
         parent[b] = a
-    elif a > b:
+    else:
         parent[a] = b
 
 
