@@ -10,18 +10,18 @@ def solution(n, weak, dist):
     data_two_weaks.sort(reverse=True)
 
     walls_excluded = []
-    for data in data_two_weaks:
-        walls_excluded.append(data)
+    for i in range(len(dist) - 1):
+        walls_excluded.append(data_two_weaks[i])
         walls_excluded.sort(key=lambda d: d[1])
 
         dists_check = []
-        for i in range(len(walls_excluded)):
+        for j in range(len(walls_excluded)):
             dists_check.append(
-                (weak[walls_excluded[(i + 1) % len(walls_excluded)][1]] - weak[walls_excluded[i][2]]) % n)
+                (weak[walls_excluded[(j + 1) % len(walls_excluded)][1]] - weak[walls_excluded[j][2]]) % n)
         dists_check.sort(reverse=True)
 
-        for i in range(len(dists_check)):
-            if i == len(dists_check) or dists_check[i] > dist[-i - 1]:
+        for j in range(len(dists_check)):
+            if dists_check[j] > dist[-j - 1]:
                 break
         else:
             return len(dists_check)
