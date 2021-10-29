@@ -21,7 +21,7 @@ def solution(n, weak, dist):
         dists_check.sort(reverse=True)
 
         for i in range(len(dists_check)):
-            if dists_check[i] > dist[-i - 1]:
+            if i == len(dists_check) or dists_check[i] > dist[-i - 1]:
                 break
         else:
             return len(dists_check)
