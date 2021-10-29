@@ -1,6 +1,6 @@
 # 외벽 점검
 def solution(n, weak, dist):
-    if n <= 2:
+    if n <= 2 or len(weak) == 1:
         return 1
 
     data_two_weaks = []
