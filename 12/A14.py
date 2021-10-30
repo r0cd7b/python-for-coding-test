@@ -1,38 +1,13 @@
 # 외벽 점검
 def solution(n, weak, dist):
-    if n <= 2 or len(weak) == 1:
-        return 1
-
-    data_two_weaks = []
-    for i in range(len(weak)):
-        next_i = (i + 1) % len(weak)
-        data_two_weaks.append(((weak[next_i] - weak[i]) % n, i, next_i))
-    data_two_weaks.sort(reverse=True)
-    print(data_two_weaks)
-
-    walls_excluded = []
-    for i in range(len(dist)):
-        walls_excluded.append(data_two_weaks[i])
-        walls_excluded.sort(key=lambda d: d[1])
-        print(walls_excluded)
-
-        dists_check = []
-        for j in range(len(walls_excluded)):
-            dists_check.append(
-                (weak[walls_excluded[(j + 1) % len(walls_excluded)][1]] - weak[walls_excluded[j][2]]) % n)
-        dists_check.sort(reverse=True)
-        print(dists_check)
-
-        for j in range(len(dists_check)):
-            if dists_check[j] > dist[-j - 1]:
-                break
-        else:
-            return len(dists_check)
+    point = 0
+    for i in range(-2, -(len(dist) + 2), -1):
+        print(dist[-1:i:-1])
+        for dist_check in dist[-1:i:-1]:
+            pass
 
     return -1
 
 
 print(f"{solution(12, [1, 5, 6, 10], [1, 2, 3, 4])} == 2")
 print(f"{solution(12, [1, 3, 4, 9, 10], [3, 5, 7])} == 1")
-
-print(f"{solution(12, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [3, 5, 7])} == 3")
