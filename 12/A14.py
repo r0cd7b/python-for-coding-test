@@ -1,10 +1,21 @@
 # 외벽 점검
+from itertools import permutations
+
+
 def solution(n, weak, dist):
-    point = 0
-    for i in range(-2, -(len(dist) + 2), -1):
-        print(dist[-1:i:-1])
-        for dist_check in dist[-1:i:-1]:
-            pass
+    for number in range(1, len(dist) + 1):
+        for permutation in permutations(dist, number):
+
+            for index_first in range(len(weak)):
+                location = weak[index_first]
+                index = index_first
+                for distance in permutation:
+                    for _ in range(distance + 1):
+                        if location == weak[index]:
+                            index = (index + 1) % len(weak)
+                            if index == index_first:
+                                return len(permutation)
+                        location = (location + 1) % n
 
     return -1
 
