@@ -3,20 +3,28 @@ from itertools import permutations
 
 
 def solution(n, weak, dist):
-    for number in range(1, len(dist) + 1):
-        for permutation in permutations(dist, number):
+    length = len(weak)
 
-            for index_first in range(len(weak)):
-                location = weak[index_first]
-                index = index_first
-                for distance in permutation:
-                    for _ in range(distance + 1):
-                        if location == weak[index]:
-                            index = (index + 1) % len(weak)
-                            if index == index_first:
-                                return len(permutation)
-                        location = (location + 1) % n
+    for i in range(length):
+        weak.append(weak[i] + n)
 
+    answer = len(dist) + 1
+
+    for start in range(length):
+
+        for friends in permutations(dist, len(dist)):
+
+            position = weak[start] + friends[0]
+            for i in range(1, len(friends)):
+                for index in range(start + 1, start + length):
+                    if position < weak[index]:
+                        position = weak[index] + friends[i]
+                        break
+                else:
+                    answer = min(answer, i)
+
+    if answer <= len(dist):
+        return answer
     return -1
 
 
