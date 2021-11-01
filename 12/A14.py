@@ -11,17 +11,17 @@ def solution(n, weak, dist):
     answer = len(dist) + 1
 
     for start in range(length):
-
         for friends in permutations(dist, len(dist)):
-
-            position = weak[start] + friends[0]
-            for i in range(1, len(friends)):
-                for index in range(start + 1, start + length):
-                    if position < weak[index]:
-                        position = weak[index] + friends[i]
+            count = 0
+            position = weak[start] + friends[count]
+            for index in range(start + 1, start + length):
+                if position < weak[index]:
+                    count += 1
+                    if count >= len(friends):
                         break
-                else:
-                    answer = min(answer, i)
+                    position = weak[index] + friends[count]
+            else:
+                answer = min(answer, count + 1)
 
     if answer <= len(dist):
         return answer
