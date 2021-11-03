@@ -9,27 +9,23 @@ for _ in range(m):
     a, b = map(int, stdin.readline().split())
     graph[a - 1].append(b - 1)
 
-visited = [False] * n
-
 x -= 1
-queue = deque([(x, 0)])
-numbers = []
-visited[x] = True
+queue = deque([x])
+distances = [0] * n
 while queue:
     city = queue.popleft()
-    if city[1] == k:
-        numbers.append(city[0])
+    for next in graph[city]:
+        if distances[next] == 0:
+            queue.append(next)
+            distances[next] = distances[city] + 1
+print(distances)
 
-    for next in graph[city[0]]:
-        if not visited[next]:
-            queue.append((next, city[1] + 1))
-            visited[next] = True
-
-if numbers:
-    numbers.sort()
-    for number in numbers:
-        print(number + 1)
-else:
+existence = False
+for i in range(len(distances)):
+    if distances[i] == k:
+        existence = True
+        print(i + 1)
+if not existence:
     print(-1)
 
 '''
