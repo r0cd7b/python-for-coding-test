@@ -18,7 +18,6 @@ while queue:
         if distances[next] == 0:
             queue.append(next)
             distances[next] = distances[city] + 1
-print(distances)
 
 existence = False
 for i in range(len(distances)):
