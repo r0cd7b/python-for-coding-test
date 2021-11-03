@@ -4,9 +4,9 @@
 """
 from sys import stdin
 
-data = stdin.readline()
+string = stdin.readline()
 result = 0
-for i in range(len(data) - 2):
-    if data[0] == data[i] and data[0] != data[i + 1]:  # 첫 원소와 동일한 값에서 상반된 값이 등장하는 순간을 센다.
+for i in range(len(string) - 2):  # 마지막의 \n 값도 제한하여 범위를 지정한다.
+    if string[0] == string[i] and string[0] != string[i + 1]:  # 첫 원소와 동일한 값에서 상반된 값이 등장하는 순간을 센다.
         result += 1
 print(result)
