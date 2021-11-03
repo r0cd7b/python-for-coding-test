@@ -11,11 +11,12 @@ for _ in range(m):
 
 x -= 1
 queue = deque([x])
-distances = [0] * n
+distances = [-1] * n
+distances[x] = 0
 while queue:
     city = queue.popleft()
     for next in graph[city]:
-        if distances[next] == 0:
+        if distances[next] == -1:
             queue.append(next)
             distances[next] = distances[city] + 1
 
