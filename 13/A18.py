@@ -1,4 +1,4 @@
-def solution(p: str):
+def solution(p):
     if not p:
         return p
 
