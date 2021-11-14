@@ -10,13 +10,11 @@ def solution(p):
             u, v = p[:point], p[point:]
             break
 
-    stack = []
+    count = 0
     for bracket in u:
         if bracket == '(':
-            stack.append(bracket)
-        elif stack:
-            stack.pop()
-        else:
+            count += 1
+        elif count == 0:
             new = []
             for i in range(1, len(u) - 1):
                 if u[i] == '(':
@@ -24,6 +22,8 @@ def solution(p):
                 else:
                     new.append('(')
             return '(' + solution(v) + ')' + ''.join(new)
+        else:
+            count -= 1
     return u + solution(v)
 
 
