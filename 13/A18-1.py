@@ -3,28 +3,22 @@ def solution(p):
     if not p:
         return p
 
-    count, u, v = {'(': 0, ')': 0}, None, None
+    p_d, u, v = {'(': 0, ')': 0}, None, None
     for i in range(len(p)):
-        count[p[i]] += 1
-        if count['('] == count[')']:
-            point = i + 1
-            u, v = p[:point], p[point:]
+        p_d[p[i]] += 1
+        if p_d['('] == p_d[')']:
+            c_p = i + 1
+            u, v = p[:c_p], p[c_p:]
             break
 
-    count = 0
-    for bracket in u:
-        if bracket == '(':
-            count += 1
-        elif count == 0:
-            new = []
+    p_d['('], p_d[')'] = 0, 0
+    for pa in u:
+        p_d[pa] += 1
+        if p_d['('] < p_d[')']:
+            p_d['('], p_d[')'], n_u = ')', '(', []
             for i in range(1, len(u) - 1):
-                if u[i] == '(':
-                    new.append(')')
-                else:
-                    new.append('(')
-            return '(' + solution(v) + ')' + ''.join(new)
-        else:
-            count -= 1
+                n_u.append(p_d[u[i]])
+            return '(' + solution(v) + ')' + ''.join(n_u)
     return u + solution(v)
 
 
