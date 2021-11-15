@@ -1,3 +1,4 @@
+# 경쟁적 전염
 from sys import stdin
 from collections import deque
 

@@ -1,3 +1,4 @@
+# 괄호 변환
 def solution(p):
     if not p:
         return p
