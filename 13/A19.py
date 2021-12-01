@@ -3,63 +3,63 @@ from sys import stdin
 from itertools import combinations
 
 
-def check():
+def process():
     for teacher in teachers:
+
         x = teacher[0] - 1
         while x >= 0:
-            if hallway[x][teacher[1]] == 'O':
+            if board[x][teacher[1]] == 'O':
                 break
-            if hallway[x][teacher[1]] == 'S':
+            if board[x][teacher[1]] == 'S':
                 return False
             x -= 1
 
         x = teacher[0] + 1
         while x < n:
-            if hallway[x][teacher[1]] == 'O':
+            if board[x][teacher[1]] == 'O':
                 break
-            if hallway[x][teacher[1]] == 'S':
+            if board[x][teacher[1]] == 'S':
                 return False
             x += 1
 
         y = teacher[1] - 1
         while y >= 0:
-            if hallway[teacher[0]][y] == 'O':
+            if board[teacher[0]][y] == 'O':
                 break
-            if hallway[teacher[0]][y] == 'S':
+            if board[teacher[0]][y] == 'S':
                 return False
             y -= 1
 
         y = teacher[1] + 1
         while y < n:
-            if hallway[teacher[0]][y] == 'O':
+            if board[teacher[0]][y] == 'O':
                 break
-            if hallway[teacher[0]][y] == 'S':
+            if board[teacher[0]][y] == 'S':
                 return False
             y += 1
 
     return True
 
 
-n = int(stdin.readline())
-hallway, teachers, blacks = [], [], []
-for x in range(n):
-    hallway.append(stdin.readline().split())
-    for y in range(n):
-        if hallway[x][y] == 'T':
-            teachers.append((x, y))
-        elif hallway[x][y] == 'X':
-            blacks.append((x, y))
+n, board, spaces, teachers = int(stdin.readline()), [], [], []
+for i in range(n):
+    board.append(stdin.readline().split())
+    for j in range(n):
+        if board[i][j] == 'X':
+            spaces.append((i, j))
+        elif board[i][j] == 'T':
+            teachers.append((i, j))
 
-for combination in combinations(blacks, 3):
-    for blank in combination:
-        hallway[blank[0]][blank[1]] = 'O'
+for data in combinations(spaces, 3):
+    for space in data:
+        board[space[0]][space[1]] = 'O'
 
-    if check():
+    if process():
         print("YES")
         break
 
-    for blank in combination:
-        hallway[blank[0]][blank[1]] = 'X'
+    for space in data:
+        board[space[0]][space[1]] = 'X'
 else:
     print("NO")
 
