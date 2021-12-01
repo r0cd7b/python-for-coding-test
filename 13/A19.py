@@ -56,8 +56,6 @@ for combination in combinations(blacks, 3):
 
     if check():
         print("YES")
-        for information in hallway:
-            print(information)
         break
 
     for blank in combination:
