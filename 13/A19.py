@@ -41,7 +41,7 @@ def check():
 
 
 n = int(stdin.readline())
-hallway, teachers, blacks, students = [], [], [], 0
+hallway, teachers, blacks = [], [], []
 for x in range(n):
     hallway.append(stdin.readline().split())
     for y in range(n):
@@ -49,8 +49,6 @@ for x in range(n):
             teachers.append((x, y))
         elif hallway[x][y] == 'X':
             blacks.append((x, y))
-        else:
-            students += 1
 
 for combination in combinations(blacks, 3):
     for blank in combination:
