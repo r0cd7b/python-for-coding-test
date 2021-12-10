@@ -1,28 +1,39 @@
 # 연산자 끼워 넣기
 from sys import stdin
-from itertools import permutations
+
+
+def dfs(i, now):
+    global add, sub, mul, div, max_value, min_value
+    if i == n:
+        max_value, min_value = max(max_value, now), min(min_value, now)
+        return
+    if add:
+        add -= 1
+        dfs(i + 1, now + data[i])
+        add += 1
+    if sub:
+        sub -= 1
+        dfs(i + 1, now - data[i])
+        sub += 1
+    if mul:
+        mul -= 1
+        dfs(i + 1, now * data[i])
+        mul += 1
+    if div:
+        div -= 1
+        dfs(i + 1, int(now / data[i]))
+        div += 1
+
 
 n = int(stdin.readline())
-a = list(map(int, stdin.readline().split()))
-operators = list(map(int, stdin.readline().split()))
+data = list(map(int, stdin.readline().split()))
+add, sub, mul, div = map(int, stdin.readline().split())
 
-operators, maximum, minimum = ['+'] * operators[0] + ['-'] * operators[1] + ['*'] * operators[2] + ['//'] * operators[
-    3], -1e9, 1e9
-for permutation in permutations(operators, len(operators)):
-    result = a[0]
-    for a_index in range(1, len(a)):
-        permutation_index = a_index - 1
-        if permutation[permutation_index] == '+':
-            result += a[a_index]
-        elif permutation[permutation_index] == '-':
-            result -= a[a_index]
-        elif permutation[permutation_index] == '*':
-            result *= a[a_index]
-        else:
-            result = int(result / a[a_index])
-    maximum, minimum = max(maximum, result), min(minimum, result)
-print(maximum)
-print(minimum)
+max_value, min_value = -1e9, 1e9
+dfs(1, data[0])
+
+print(max_value)
+print(min_value)
 
 """
 입력 예시 1
