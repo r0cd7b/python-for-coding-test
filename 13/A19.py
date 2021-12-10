@@ -18,10 +18,8 @@ for permutation in permutations(operators, len(operators)):
             result -= a[a_index]
         elif permutation[permutation_index] == '*':
             result *= a[a_index]
-        elif result >= 0:
-            result //= a[a_index]
         else:
-            result = -(-result // a[a_index])
+            result = int(result / a[a_index])
     maximum, minimum = max(maximum, result), min(minimum, result)
 print(maximum)
 print(minimum)
