@@ -5,21 +5,16 @@ from sys import stdin
 def dfs(row, column):
     visits[row][column] = True
     union.append((row, column))
-
     global l, r
-
     coordinate = row - 1
     if coordinate >= 0 and not visits[coordinate][column] and l <= abs(a[row][column] - a[coordinate][column]) <= r:
         dfs(coordinate, column)
-
     coordinate = row + 1
     if coordinate < n and not visits[coordinate][column] and l <= abs(a[row][column] - a[coordinate][column]) <= r:
         dfs(coordinate, column)
-
     coordinate = column - 1
     if coordinate >= 0 and not visits[row][coordinate] and l <= abs(a[row][column] - a[row][coordinate]) <= r:
         dfs(row, coordinate)
-
     coordinate = column + 1
     if coordinate < n and not visits[row][coordinate] and l <= abs(a[row][column] - a[row][coordinate]) <= r:
         dfs(row, coordinate)
@@ -48,6 +43,7 @@ while True:
         times += 1
     else:
         break
+
 print(times)
 
 """
