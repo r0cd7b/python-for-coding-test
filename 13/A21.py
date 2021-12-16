@@ -2,49 +2,47 @@
 from sys import stdin
 
 
-def dfs(row, column):
-    visits[row][column] = True
-    union.append((row, column))
-    global l, r
-    coordinate = row - 1
-    if coordinate >= 0 and not visits[coordinate][column] and l <= abs(a[row][column] - a[coordinate][column]) <= r:
-        dfs(coordinate, column)
-    coordinate = row + 1
-    if coordinate < n and not visits[coordinate][column] and l <= abs(a[row][column] - a[coordinate][column]) <= r:
-        dfs(coordinate, column)
-    coordinate = column - 1
-    if coordinate >= 0 and not visits[row][coordinate] and l <= abs(a[row][column] - a[row][coordinate]) <= r:
-        dfs(row, coordinate)
-    coordinate = column + 1
-    if coordinate < n and not visits[row][coordinate] and l <= abs(a[row][column] - a[row][coordinate]) <= r:
-        dfs(row, coordinate)
+def d(row, co):
+    v[row][co] = True
+    u.append((row, co))
+    global p, l, r
+    p += a[row][co]
+    coo = row - 1
+    if coo >= 0 and not v[coo][co] and l <= abs(a[row][co] - a[coo][co]) <= r:
+        d(coo, co)
+    coo = row + 1
+    if coo < n and not v[coo][co] and l <= abs(a[row][co] - a[coo][co]) <= r:
+        d(coo, co)
+    coo = co - 1
+    if coo >= 0 and not v[row][coo] and l <= abs(a[row][co] - a[row][coo]) <= r:
+        d(row, coo)
+    coo = co + 1
+    if coo < n and not v[row][coo] and l <= abs(a[row][co] - a[row][coo]) <= r:
+        d(row, coo)
 
 
 n, l, r = map(int, stdin.readline().split())
 a = [list(map(int, stdin.readline().split())) for _ in range(n)]
 
-times = 0
+t = 0
 while True:
-    movement, visits = False, [[False] * n for _ in range(n)]
-    for row in range(n):
-        for column in range(n):
-            union = []
-            dfs(row, column)
-            if len(union) >= 2:
-                population = 0
-                for row, column in union:
-                    population += a[row][column]
-                population //= len(union)
-                for row, column in union:
-                    if population != a[row][column]:
-                        a[row][column] = population
-                        movement = True
-    if movement:
-        times += 1
+    v, m = [[False] * n for _ in range(n)], False
+    for ro in range(n):
+        for c in range(n):
+            u, p = [], 0
+            d(ro, c)
+            if len(u) >= 2:
+                p //= len(u)
+                for row_, col in u:
+                    if p != a[row_][col]:
+                        a[row_][col] = p
+                        m = True
+    if m:
+        t += 1
     else:
         break
 
-print(times)
+print(t)
 
 """
 입력 예시 1
