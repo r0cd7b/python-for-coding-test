@@ -8,8 +8,8 @@ def process(x, y):
     while q:
         x, y = q.popleft()
         united.append((x, y))
-        for i in range(len(dx)):
-            nx, ny = x + dx[i], y + dy[i]
+        for i in range(4):
+            nx, ny = x + [-1, 0, 1, 0][i], y + [0, -1, 0, 1][i]
             if 0 <= nx < n and 0 <= ny < n and not union[nx][ny] and l <= abs(graph[nx][ny] - graph[x][y]) <= r:
                 union[nx][ny], summary = True, graph[nx][ny] + summary
                 q.append((nx, ny))
@@ -24,7 +24,7 @@ def process(x, y):
 n, l, r = map(int, stdin.readline().split())
 graph = [list(map(int, stdin.readline().split())) for _ in range(n)]
 
-dx, dy, total_count = [-1, 0, 1, 0], [0, -1, 0, 1], 0
+total_count = 0
 while True:
     union, movement = [[False] * n for _ in range(n)], False
     for i in range(n):
