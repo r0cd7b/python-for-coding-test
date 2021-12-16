@@ -4,15 +4,15 @@ from collections import deque
 
 
 def process(x, y):
-    union[x][y], q, summary, united = True, deque([(x, y)]), graph[x][y], [(x, y)]
+    union[x][y], q, united, summary = True, deque([(x, y)]), [], graph[x][y]
     while q:
         x, y = q.popleft()
+        united.append((x, y))
         for i in range(len(dx)):
             nx, ny = x + dx[i], y + dy[i]
             if 0 <= nx < n and 0 <= ny < n and not union[nx][ny] and l <= abs(graph[nx][ny] - graph[x][y]) <= r:
                 union[nx][ny], summary = True, graph[nx][ny] + summary
                 q.append((nx, ny))
-                united.append((nx, ny))
     if len(united) >= 2:
         summary //= len(united)
         for i, j in united:

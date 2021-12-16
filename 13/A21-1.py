@@ -18,20 +18,20 @@ while True:
                     population += a[r2][c2]
                     r3 = r2 - 1
                     if r3 >= 0 and not visit[r3][c2] and l <= abs(a[r2][c2] - a[r3][c2]) <= r:
-                        search.append((r3, c2))
                         visit[r3][c2] = True
+                        search.append((r3, c2))
                     r3 = r2 + 1
                     if r3 < n and not visit[r3][c2] and l <= abs(a[r2][c2] - a[r3][c2]) <= r:
-                        search.append((r3, c2))
                         visit[r3][c2] = True
+                        search.append((r3, c2))
                     c3 = c2 - 1
                     if c3 >= 0 and not visit[r2][c3] and l <= abs(a[r2][c2] - a[r2][c3]) <= r:
-                        search.append((r2, c3))
                         visit[r2][c3] = True
+                        search.append((r2, c3))
                     c3 = c2 + 1
                     if c3 < n and not visit[r2][c3] and l <= abs(a[r2][c2] - a[r2][c3]) <= r:
-                        search.append((r2, c3))
                         visit[r2][c3] = True
+                        search.append((r2, c3))
                 if len(union) >= 2:
                     move, population = True, population // len(union)
                     for r2, c2 in union:
