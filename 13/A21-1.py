@@ -15,11 +15,10 @@ while True:
                 while search:
                     r2, c2 = search.popleft()
                     union.append((r2, c2))
-                    population += a[r2][c2]
                     for direction in range(4):
                         r3, c3 = r2 + [-1, 0, 1, 0][direction], c2 + [0, -1, 0, 1][direction]
                         if 0 <= r3 < n and 0 <= c3 < n and not visit[r3][c3] and l <= abs(a[r2][c2] - a[r3][c3]) <= r:
-                            visit[r3][c3] = True
+                            visit[r3][c3], population = True, a[r2][c2] + population
                             search.append((r3, c3))
                 if len(union) >= 2:
                     move, population = True, population // len(union)
