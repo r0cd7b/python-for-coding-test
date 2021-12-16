@@ -1,49 +1,48 @@
 # 인구 이동
 from sys import stdin
-
-
-def d(row, co):
-    v[row][co] = True
-    u.append((row, co))
-    global p, l, r
-    p += a[row][co]
-    coo = row - 1
-    if coo >= 0 and not v[coo][co] and l <= abs(a[row][co] - a[coo][co]) <= r:
-        d(coo, co)
-    coo = row + 1
-    if coo < n and not v[coo][co] and l <= abs(a[row][co] - a[coo][co]) <= r:
-        d(coo, co)
-    coo = co - 1
-    if coo >= 0 and not v[row][coo] and l <= abs(a[row][co] - a[row][coo]) <= r:
-        d(row, coo)
-    coo = co + 1
-    if coo < n and not v[row][coo] and l <= abs(a[row][co] - a[row][coo]) <= r:
-        d(row, coo)
-
+from collections import deque
 
 n, l, r = map(int, stdin.readline().split())
 a = [list(map(int, stdin.readline().split())) for _ in range(n)]
 
-t = 0
+order, moves = deque(), 0
 while True:
-    v, m = [[False] * n for _ in range(n)], False
-    for ro in range(n):
-        for c in range(n):
-            u, p = [], 0
-            if not v[ro][c]:
-                d(ro, c)
-            if len(u) >= 2:
-                p //= len(u)
-                for row_, col in u:
-                    if p != a[row_][col]:
-                        a[row_][col] = p
-                        m = True
-    if m:
-        t += 1
+    visit, move = [[False] * n for _ in range(n)], False
+    for r1 in range(n):
+        for c1 in range(n):
+            if not visit[r1][c1]:
+                order.append((r1, c1))
+                visit[r1][c1], union, population = True, [], 0
+                while order:
+                    r2, c2 = order.popleft()
+                    union.append((r2, c2))
+                    population += a[r2][c2]
+                    r3 = r2 - 1
+                    if r3 >= 0 and not visit[r3][c2] and l <= abs(a[r2][c2] - a[r3][c2]) <= r:
+                        order.append((r3, c2))
+                        visit[r3][c2] = True
+                    r3 = r2 + 1
+                    if r3 < n and not visit[r3][c2] and l <= abs(a[r2][c2] - a[r3][c2]) <= r:
+                        order.append((r3, c2))
+                        visit[r3][c2] = True
+                    c3 = c2 - 1
+                    if c3 >= 0 and not visit[r2][c3] and l <= abs(a[r2][c2] - a[r2][c3]) <= r:
+                        order.append((r2, c3))
+                        visit[r2][c3] = True
+                    c3 = c2 + 1
+                    if c3 < n and not visit[r2][c3] and l <= abs(a[r2][c2] - a[r2][c3]) <= r:
+                        order.append((r2, c3))
+                        visit[r2][c3] = True
+                if len(union) >= 2:
+                    move, population = True, population // len(union)
+                    for r2, c2 in union:
+                        a[r2][c2] = population
+    if move:
+        moves += 1
     else:
         break
 
-print(t)
+print(moves)
 
 """
 입력 예시 1
