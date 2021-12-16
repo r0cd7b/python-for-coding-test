@@ -5,33 +5,33 @@ from collections import deque
 n, l, r = map(int, stdin.readline().split())
 a = [list(map(int, stdin.readline().split())) for _ in range(n)]
 
-order, moves = deque(), 0
+search, moves = deque(), 0
 while True:
     visit, move = [[False] * n for _ in range(n)], False
     for r1 in range(n):
         for c1 in range(n):
             if not visit[r1][c1]:
-                order.append((r1, c1))
+                search.append((r1, c1))
                 visit[r1][c1], union, population = True, [], 0
-                while order:
-                    r2, c2 = order.popleft()
+                while search:
+                    r2, c2 = search.popleft()
                     union.append((r2, c2))
                     population += a[r2][c2]
                     r3 = r2 - 1
                     if r3 >= 0 and not visit[r3][c2] and l <= abs(a[r2][c2] - a[r3][c2]) <= r:
-                        order.append((r3, c2))
+                        search.append((r3, c2))
                         visit[r3][c2] = True
                     r3 = r2 + 1
                     if r3 < n and not visit[r3][c2] and l <= abs(a[r2][c2] - a[r3][c2]) <= r:
-                        order.append((r3, c2))
+                        search.append((r3, c2))
                         visit[r3][c2] = True
                     c3 = c2 - 1
                     if c3 >= 0 and not visit[r2][c3] and l <= abs(a[r2][c2] - a[r2][c3]) <= r:
-                        order.append((r2, c3))
+                        search.append((r2, c3))
                         visit[r2][c3] = True
                     c3 = c2 + 1
                     if c3 < n and not visit[r2][c3] and l <= abs(a[r2][c2] - a[r2][c3]) <= r:
-                        order.append((r2, c3))
+                        search.append((r2, c3))
                         visit[r2][c3] = True
                 if len(union) >= 2:
                     move, population = True, population // len(union)
