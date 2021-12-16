@@ -5,14 +5,13 @@ from collections import deque
 n, l, r = map(int, stdin.readline().split())
 a = [list(map(int, stdin.readline().split())) for _ in range(n)]
 
-search, moves = deque(), 0
+moves = 0
 while True:
     visit, move = [[False] * n for _ in range(n)], False
     for r1 in range(n):
         for c1 in range(n):
             if not visit[r1][c1]:
-                search.append((r1, c1))
-                visit[r1][c1], union, population = True, [], 0
+                visit[r1][c1], search, union, population = True, deque([(r1, c1)]), [], 0
                 while search:
                     r2, c2 = search.popleft()
                     union.append((r2, c2))
@@ -37,10 +36,9 @@ while True:
                     move, population = True, population // len(union)
                     for r2, c2 in union:
                         a[r2][c2] = population
-    if move:
-        moves += 1
-    else:
+    if not move:
         break
+    moves += 1
 
 print(moves)
 
