@@ -30,7 +30,8 @@ while True:
     for ro in range(n):
         for c in range(n):
             u, p = [], 0
-            d(ro, c)
+            if not v[ro][c]:
+                d(ro, c)
             if len(u) >= 2:
                 p //= len(u)
                 for row_, col in u:
