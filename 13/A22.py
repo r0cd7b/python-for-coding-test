@@ -11,7 +11,6 @@ def solution(board):
     queue, n, n_1 = deque([(1, 1, 0, 0)]), len(board) - 2, len(board) - 3
     while queue:
         x, y, orientation, time = queue.popleft()
-
         previous_x, next_x, previous_y, next_y, next_orientation, next_time = \
             x - 1, x + 1, y - 1, y + 1, -orientation + 1, time + 1
         if orientation:
