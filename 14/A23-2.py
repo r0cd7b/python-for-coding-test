@@ -3,13 +3,12 @@ from sys import stdin
 
 n, students = int(stdin.readline()), []
 for _ in range(n):
-    name, korean, english, mathematics = stdin.readline().split()
-    students.append((-int(korean), int(english), -int(mathematics), name))
+    students.append(stdin.readline().split())
 
-students.sort()
+students.sort(key=lambda x: (-int(x[1]), int(x[2]), -int(x[3]), x[0]))
 
-for _, _, _, name in students:
-    print(name)
+for student in students:
+    print(student[0])
 
 """
 입력 예시

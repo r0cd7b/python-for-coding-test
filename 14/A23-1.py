@@ -8,8 +8,8 @@ for _ in range(n):
 
 students.sort()
 
-for _, _, _, name in students:
-    print(name)
+for student in students:
+    print(student[3])
 
 """
 입력 예시
