@@ -3,18 +3,13 @@ from sys import stdin
 
 n, students = int(stdin.readline()), []
 for _ in range(n):
-    strings: list = stdin.readline().split()
-    for i in range(1, len(strings)):
-        strings[i] = int(strings[i])
-    students.append(strings)
+    name, korean, english, mathematics = stdin.readline().split()
+    students.append((-int(korean), int(english), -int(mathematics), name))
 
-students.sort(key=lambda s: s[0])
-students.sort(key=lambda s: s[3], reverse=True)
-students.sort(key=lambda s: s[2])
-students.sort(key=lambda s: s[1], reverse=True)
+students.sort()
 
-for student in students:
-    print(student[0])
+for _, _, _, name in students:
+    print(name)
 
 """
 입력 예시
