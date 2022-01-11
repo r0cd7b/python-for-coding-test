@@ -11,8 +11,7 @@ def solution(N, stages):
             rates.append((-((index - previous) / challenged), i))
         else:
             rates.append((0, i))
-    rates.sort()
-    return [rate[1] for rate in rates]
+    return [rate[1] for rate in sorted(rates)]
 
 
 print(solution(5, [2, 1, 2, 6, 2, 4, 3, 3]))  # [3, 4, 2, 1, 5]
