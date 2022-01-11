@@ -6,7 +6,11 @@ def solution(N, stages):
         previous = index
         while len(stages) > index and i >= stages[index]:
             index += 1
-        rates.append((-((index - previous) / (len(stages) - previous)), i))
+        challenged = len(stages) - previous
+        if challenged:
+            rates.append((-((index - previous) / challenged), i))
+        else:
+            rates.append((0, i))
     rates.sort()
     return [rate[1] for rate in rates]
 
