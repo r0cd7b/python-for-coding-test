@@ -2,17 +2,17 @@
 from sys import stdin
 import heapq
 
-n, bundles = int(stdin.readline()), []
+n, heap = int(stdin.readline()), []
 for _ in range(n):
-    heapq.heappush(bundles, int(stdin.readline()))
+    heapq.heappush(heap, int(stdin.readline()))
 
-number = 0
-while len(bundles) >= 2:
-    bundle = heapq.heappop(bundles) + heapq.heappop(bundles)
-    heapq.heappush(bundles, bundle)
-    number += bundle
+result = 0
+while len(heap) >= 2:
+    sum_value = heapq.heappop(heap) + heapq.heappop(heap)
+    heapq.heappush(heap, sum_value)
+    result += sum_value
 
-print(number)
+print(result)
 
 """
 입력 예시
