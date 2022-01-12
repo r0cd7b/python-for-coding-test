@@ -7,7 +7,7 @@ for _ in range(n):
     heapq.heappush(bundles, int(stdin.readline()))
 
 if n == 1:
-    number = bundles[0]
+    number = heapq.heappop(bundles)
 else:
     number = 0
     for _ in range(n - 1):
@@ -52,4 +52,29 @@ print(number)
 60
 출력 예시
 360
+
+입력 예시
+20
+224
+653
+518
+407
+195
+811
+821
+589
+678
+738
+530
+301
+714
+304
+588
+669
+219
+318
+442
+866
+출력 예시
+44722
 """
