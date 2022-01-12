@@ -4,12 +4,12 @@ from sys import stdin
 n = int(stdin.readline())
 bundles = sorted([int(stdin.readline()) for _ in range(n)])
 
-if n > 2:
-    number = (bundles[0] + bundles[1]) * (n - 1)
+if n >= 2:
+    number = bundles[0] + bundles[1]
     for i in range(2, n):
-        number += bundles[i] * (n - i)
+        number += number + bundles[i]
 else:
-    number = sum(bundles)
+    number = bundles[0]
 
 print(number)
 
