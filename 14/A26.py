@@ -1,15 +1,19 @@
 # 카드 정렬하기
 from sys import stdin
+import heapq
 
-n = int(stdin.readline())
-bundles = sorted([int(stdin.readline()) for _ in range(n)])
+n, bundles = int(stdin.readline()), []
+for _ in range(n):
+    heapq.heappush(bundles, int(stdin.readline()))
 
-if n >= 2:
-    number = bundles[0] + bundles[1]
-    for i in range(2, n):
-        number += number + bundles[i]
-else:
+if n == 1:
     number = bundles[0]
+else:
+    number = 0
+    for _ in range(n - 1):
+        bundle = heapq.heappop(bundles) + heapq.heappop(bundles)
+        heapq.heappush(bundles, bundle)
+        number += bundle
 
 print(number)
 
@@ -21,4 +25,23 @@ print(number)
 40
 출력 예시
 100
+
+
+입력 예시
+4
+10
+20
+40
+50
+출력 예시
+220
+
+입력 예시
+4
+3
+3
+3
+3
+출력 예시
+24
 """
