@@ -8,21 +8,22 @@ endpoint = n - 1
 start, end, count = 0, endpoint, -1
 while start <= end:
     midpoint = (start + end) // 2
-    if count == -1:
-        if sequence[midpoint] == x < sequence[midpoint + 1]:
-            start, end, count = 0, endpoint, midpoint
-        elif x < sequence[midpoint]:
-            end = midpoint - 1
+    if x == sequence[midpoint]:
+        if count == -1:
+            if midpoint == endpoint or x != sequence[midpoint + 1]:
+                start, end, count = 0, endpoint, midpoint
+            else:
+                start = midpoint + 1
         else:
-            start = midpoint + 1
+            if midpoint == 0 or x != sequence[midpoint - 1]:
+                count -= midpoint - 1
+                break
+            else:
+                end = midpoint - 1
+    elif x > sequence[midpoint]:
+        start = midpoint + 1
     else:
-        if sequence[midpoint] == x > sequence[midpoint - 1]:
-            count -= midpoint - 1
-            break
-        elif x > sequence[midpoint]:
-            start = midpoint + 1
-        else:
-            end = midpoint - 1
+        end = midpoint - 1
 
 print(count)
 
