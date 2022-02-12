@@ -2,23 +2,23 @@
 from sys import stdin
 
 n, c = map(int, stdin.readline().split())
-x = sorted([int(stdin.readline()) for _ in range(n)])
+array = sorted([int(stdin.readline()) for _ in range(n)])
 
-start, end, distance = 1, x[-1] - x[0], 0
+start, end, result = 1, array[-1] - array[0], 0
 while start <= end:
-    current, midpoint, routers = x[0], (start + end) // 2, 1
+    value, mid, count = array[0], (start + end) // 2, 1
     for i in range(1, n):
-        if x[i] - current >= midpoint:
-            routers += 1
-            if c <= routers:
+        if array[i] >= value + mid:
+            count = count + 1
+            if c <= count:
                 break
-            current = x[i]
+            value = array[i]
     else:
-        end = midpoint - 1
+        end = mid - 1
         continue
-    start, distance = midpoint + 1, midpoint
+    start, result = mid + 1, mid
 
-print(distance)
+print(result)
 
 """
 입력 예시
