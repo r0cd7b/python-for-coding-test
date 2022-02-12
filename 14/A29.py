@@ -4,19 +4,15 @@ from sys import stdin
 n, c = map(int, stdin.readline().split())
 x = sorted([int(stdin.readline()) for _ in range(n)])
 
-start, end, distance = 1, x[-1] - x[1], 0
+start, end, distance = 1, x[-1] - x[0], 0
 while start <= end:
-    midpoint = (start + end) // 2
-    for i in range(len(x) - c):
-        previous, router = x[i], c - 1
-        for j in range(i + 1, len(x)):
-            if x[j] - previous >= midpoint:
-                if router <= 1:
-                    break
-                previous, router = x[j], router - 1
-        else:
-            continue
-        break
+    current, midpoint, routers = x[0], (start + end) // 2, 1
+    for i in range(1, len(x)):
+        if x[i] - current >= midpoint:
+            routers += 1
+            if c <= routers:
+                break
+            current = x[i]
     else:
         end = midpoint - 1
         continue
