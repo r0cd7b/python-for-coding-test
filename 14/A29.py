@@ -7,7 +7,7 @@ x = sorted([int(stdin.readline()) for _ in range(n)])
 start, end, distance = 1, x[-1] - x[0], 0
 while start <= end:
     current, midpoint, routers = x[0], (start + end) // 2, 1
-    for i in range(1, len(x)):
+    for i in range(1, n):
         if x[i] - current >= midpoint:
             routers += 1
             if c <= routers:
