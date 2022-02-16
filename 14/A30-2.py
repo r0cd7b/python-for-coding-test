@@ -1,20 +1,29 @@
 # 가사 검색
+from bisect import bisect_right, bisect_left
+
+
+def count_by_range(a, left_value, right_value):
+    return bisect_right(a, right_value) - bisect_left(a, left_value)
+
+
+array = [[] for _ in range(10000)]
+reversed_array = [[] for _ in range(10000)]
+
+
 def solution(words, queries):
     answer = []
-
-    length = [[] for _ in range(10000)]
     for word in words:
-        length[len(word) - 2].append(word)
-    for query in queries:
-        result = 0
-        for word in length[len(query) - 2]:
-            for i in range(len(query)):
-                if query[i] != word[i] and query[i] != '?':
-                    break
-            else:
-                result += 1
-        answer.append(result)
-
+        array[len(word) - 2].append(word)
+        reversed_array[len(word) - 2].append(word)
+    for i in range(10000):
+        array[i].sort()
+        reversed_array[i].sort()
+    for q in queries:
+        if q[0] != '?':
+            answer.append(count_by_range(array[len(q) - 2], q.replace('?', 'a'), q.replace('?', 'z')))
+        else:
+            q = q[::-1]
+            answer.append(count_by_range(array[len(q) - 2], q.replace('?', 'a'), q.replace('?', 'z')))
     return answer
 
 

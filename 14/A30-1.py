@@ -1,28 +1,35 @@
 # 가사 검색
-from bisect import bisect_left, bisect_right
+from bisect import bisect_right, bisect_left
 
 
 def solution(words, queries):
-    answer = []
-
-    length, flipped = [[] for _ in range(10000)], [[] for _ in range(10000)]
+    length, flipped, answer = [[] for _ in range(10000)], [[] for _ in range(10000)], []
     for word in words:
-        length[len(word) - 2].append(word)
-        flipped[len(word) - 2].append(word[::-1])
+        length_word = len(word) - 2
+        length[length_word].append(word)
+        flipped[length_word].append(word[::-1])
     for i in range(10000):
         length[i].sort()
         flipped[i].sort()
     for query in queries:
+        length_query = len(query) - 2
         if query[0] != '?':
             answer.append(
-                bisect_right(length[len(query) - 2], query.replace('?', 'z')) - bisect_left(length[len(query) - 2],
-                                                                                            query.replace('?', 'a')))
+                bisect_right(
+                    length[length_query], query.replace('?', 'z')
+                ) - bisect_left(
+                    length[length_query], query.replace('?', 'a')
+                )
+            )
         else:
             query = query[::-1]
             answer.append(
-                bisect_right(flipped[len(query) - 2], query.replace('?', 'z')) - bisect_left(flipped[len(query) - 2],
-                                                                                             query.replace('?', 'a')))
-
+                bisect_right(
+                    flipped[length_query], query.replace('?', 'z')
+                ) - bisect_left(
+                    flipped[length_query], query.replace('?', 'a')
+                )
+            )
     return answer
 
 
