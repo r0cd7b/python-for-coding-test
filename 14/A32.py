@@ -2,15 +2,14 @@
 from sys import stdin
 
 n = int(stdin.readline())
-triangle = [list(map(int, stdin.readline().split())) for _ in range(n)]
+dp = [list(map(int, stdin.readline().split())) for _ in range(n)]
 
 for i in range(1, n):
-    for j in range(len(triangle[i])):
-        previous_i, previous_j = i - 1, j - 1
-        triangle[i][j] += max(triangle[previous_i][previous_j] if previous_j >= 0 else 0,
-                              triangle[previous_i][j] if j < len(triangle[previous_i]) else 0)
+    for j in range(len(dp[i])):
+        up, left = i - 1, j - 1
+        dp[i][j] += max(dp[up][left] if left >= 0 else 0, dp[up][j] if j < len(dp[up]) else 0)
 
-print(max(triangle[-1]))
+print(max(dp[-1]))
 
 """
 입력 예시
