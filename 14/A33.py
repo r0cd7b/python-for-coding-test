@@ -6,8 +6,8 @@ for _ in range(n):
     x, y = map(int, stdin.readline().split())
     t.append(x)
     p.append(y)
-p.append(0)
 
+p.append(0)
 for i in range(n - 1, -1, -1):
     time, max_value = t[i] + i, p[i + 1]
     if time <= n:
