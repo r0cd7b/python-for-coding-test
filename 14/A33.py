@@ -2,21 +2,18 @@
 from sys import stdin
 
 n, t, p = int(stdin.readline()), [], []
-for i in range(n):
-    split = stdin.readline().split()
-    t.append(int(split[0]))
-    p.append(int(split[1]))
+for _ in range(n):
+    x, y = map(int, stdin.readline().split())
+    t.append(x)
+    p.append(y)
+p.append(0)
 
-if n - 1 + t[-1] > n:
-    p[-1] = 0
-for i in range(n - 2, -1, -1):
-    end, previous = i + t[i], i + 1
-    if end == n:
-        p[i] = max(p[i], p[previous])
-    elif end < n:
-        p[i] = max(p[i] + p[end], p[previous])
+for i in range(n - 1, -1, -1):
+    time, max_value = t[i] + i, p[i + 1]
+    if time <= n:
+        p[i] = max(p[i] + p[time], max_value)
     else:
-        p[i] = p[previous]
+        p[i] = max_value
 
 print(p[0])
 
