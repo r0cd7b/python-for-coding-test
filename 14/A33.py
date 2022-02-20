@@ -11,7 +11,7 @@ if n - 1 + t[-1] > n:
     p[-1] = 0
 for i in range(n - 2, -1, -1):
     end, previous = i + t[i], i + 1
-    if end <= n:
+    if end < n:
         p[i] = max(p[i] + p[end], p[previous])
     else:
         p[i] = p[previous]
