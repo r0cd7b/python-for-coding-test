@@ -6,14 +6,11 @@ for i in range(n):
     split = stdin.readline().split()
     t.append(int(split[0]))
     p.append(int(split[1]))
+p.append(0)
 
-if n - 1 + t[-1] > n:
-    p[-1] = 0
-for i in range(n - 2, -1, -1):
+for i in range(n - 1, -1, -1):
     end, previous = i + t[i], i + 1
-    if end == n:
-        p[i] = max(p[i], p[previous])
-    elif end < n:
+    if end <= n:
         p[i] = max(p[i] + p[end], p[previous])
     else:
         p[i] = p[previous]
