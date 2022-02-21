@@ -1,15 +1,15 @@
 # 병사 배치하기
 from sys import stdin
 
-n, soldiers = int(stdin.readline()), list(map(int, stdin.readline().split()))
-sequences = [1] * n
+n, array = int(stdin.readline()), list(map(int, stdin.readline().split()))
+dp = [1] * n
 
 for i in range(1, n):
     for j in range(i):
-        if soldiers[j] > soldiers[i]:
-            sequences[i] = max(sequences[j] + 1, sequences[i])
+        if array[j] > array[i]:
+            dp[i] = max(dp[j] + 1, dp[i])
 
-print(n - max(sequences))
+print(n - max(dp))
 
 """
 입력 예시
