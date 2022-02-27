@@ -6,6 +6,7 @@ buses = [[0] * n for _ in range(n)]
 for _ in range(m):
     a, b, c = map(int, stdin.readline().split())
     buses[a - 1][b - 1] = c
+
 print(buses)
 
 """
