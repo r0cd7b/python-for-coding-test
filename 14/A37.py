@@ -1,11 +1,27 @@
 # 플로이드
 from sys import stdin
+from heapq import heappush, heappop
 
 n, m = int(stdin.readline()), int(stdin.readline())
-buses = [[0] * n for _ in range(n)]
+buses = [[1e5] * n for _ in range(n)]
 for _ in range(m):
     a, b, c = map(int, stdin.readline().split())
     buses[a - 1][b - 1] = c
+
+minimum = []
+for i in range(n):
+    minimum.append([])
+    for j in range(n):
+        if i == j:
+            minimum[i].append(0)
+            continue
+
+        queue, visit = [], [False] * n
+        visit[i] = True
+        for cost in buses[i]:
+            heappush(queue, (cost, j))
+        while queue:
+            cost, destination = heappop(queue)
 
 print(buses)
 
