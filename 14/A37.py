@@ -3,7 +3,7 @@ from sys import stdin
 from heapq import heappush, heappop
 
 n, m = int(stdin.readline()), int(stdin.readline())
-costs = [[100000] * i + [0] + [100000] * (n - i - 1) for i in range(n)]
+costs = [[100001] * i + [0] + [100001] * (n - i - 1) for i in range(n)]
 for _ in range(m):
     a, b, c = map(int, stdin.readline().split())
     a, b = a - 1, b - 1
@@ -24,7 +24,10 @@ for i in range(n):
 
 for costs in costs:
     for cost in costs:
-        print(cost, end=' ')
+        if cost > 100000:
+            print(0, end=' ')
+        else:
+            print(cost, end=' ')
     print()
 
 """
