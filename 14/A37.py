@@ -3,26 +3,29 @@ from sys import stdin
 from heapq import heappush, heappop
 
 n, m = int(stdin.readline()), int(stdin.readline())
-buses = [[1e5] * i + [0] + [1e5] * (n - i - 1) for i in range(n)]
+costs = [[1e5] * i + [0] + [1e5] * (n - i - 1) for i in range(n)]
 for _ in range(m):
     a, b, c = map(int, stdin.readline().split())
     a, b = a - 1, b - 1
-    if buses[a][b] > c:
-        buses[a][b] = c
-print(buses)
+    if costs[a][b] > c:
+        costs[a][b] = c
 
 for i in range(n):
+    heap = []
     for j in range(n):
-        if buses[i][j] >= 2:
-            heap = [(0, i)]
-            while heap:
-                cost, destination = heappop(heap)
-                if buses[i][destination] > cost:
-                    for k in range(n):
-                        cost += buses[destination][k]
-                        if buses[destination][k] > cost:
-                            buses[destination][k] = cost
-                            heappush(heap, (buses[i][k], k))
+        heappush(heap, (costs[i][j], j))
+    while heap:
+        cost, destination = heappop(heap)
+        for j in range(n):
+            via = cost + costs[destination][j]
+            if costs[i][j] > via:
+                costs[i][j] = via
+                heappush(heap, (costs[i][j], j))
+
+for costs in costs:
+    for cost in costs:
+        print(cost, end=' ')
+    print()
 
 """
 입력 예시
