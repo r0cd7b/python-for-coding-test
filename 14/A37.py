@@ -11,16 +11,15 @@ for _ in range(m):
         costs[a][b] = c
 
 for i in range(n):
-    heap = []
-    for j in range(n):
-        heappush(heap, (costs[i][j], j))
+    heap = [(0, i)]
     while heap:
         cost, destination = heappop(heap)
-        for j in range(n):
-            via = cost + costs[destination][j]
-            if costs[i][j] > via:
-                costs[i][j] = via
-                heappush(heap, (costs[i][j], j))
+        if costs[i][destination] >= cost:
+            for j in range(n):
+                via = cost + costs[destination][j]
+                if costs[i][j] > via:
+                    costs[i][j] = via
+                    heappush(heap, (costs[i][j], j))
 
 for costs in costs:
     for cost in costs:
