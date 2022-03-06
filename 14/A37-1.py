@@ -12,8 +12,9 @@ minimums = []
 for i in range(n):
     heap, costs = [], [0] * n
     for cost, index in buses[i]:
-        heappush(heap, (cost, index))
-        costs[index] = cost
+        if not costs[index] or costs[index] > cost:
+            heappush(heap, (cost, index))
+            costs[index] = cost
     while heap:
         cost_current, index_current = heappop(heap)
         for cost_next, index_next in buses[index_current]:
@@ -23,8 +24,11 @@ for i in range(n):
                     heappush(heap, (cost_next, index_next))
                     costs[index_next] = cost_next
     minimums.append(costs)
-for minimums in minimums:
-    print(minimums)
+
+for m1 in minimums:
+    for m2 in m1:
+        print(m2, end=' ')
+    print()
 
 """
 입력 예시
