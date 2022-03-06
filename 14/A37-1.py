@@ -32,14 +32,6 @@ for m1 in minimums:
         print(m2, end=' ')
     print()
 
-n, m = int(stdin.readline()), int(stdin.readline())
-graph = [[9900001] * i + [0] + [9900001] * (n - i - 1) for i in range(n)]
-for _ in range(m):
-    a, b, c = map(int, stdin.readline().split())
-    a, b = a - 1, b - 1
-    if graph[a][b] > c:
-        graph[a][b] = c
-
 """
 입력 예시
 5
