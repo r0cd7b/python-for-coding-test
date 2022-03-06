@@ -2,7 +2,7 @@
 from sys import stdin
 
 n, m = int(stdin.readline()), int(stdin.readline())
-graph = [[100001] * i + [0] + [100001] * (n - i - 1) for i in range(n)]
+graph = [[9900001] * i + [0] + [9900001] * (n - i - 1) for i in range(n)]
 for _ in range(m):
     a, b, c = map(int, stdin.readline().split())
     a, b = a - 1, b - 1
@@ -16,7 +16,7 @@ for k in range(n):
 
 for a in range(n):
     for b in range(n):
-        if graph[a][b] > 100000:
+        if graph[a][b] > 9900000:
             print(0, end=' ')
         else:
             print(graph[a][b], end=' ')
