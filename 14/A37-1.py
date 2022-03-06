@@ -3,32 +3,42 @@ from sys import stdin
 from heapq import heappush, heappop
 
 n, m = int(stdin.readline()), int(stdin.readline())
-buses: list = [[] for _ in range(n)]
+graph = [[0] * n for i in range(n)]
 for _ in range(m):
     a, b, c = map(int, stdin.readline().split())
-    buses[a - 1].append((c, b - 1))
+    a, b = a - 1, b - 1
+    if not graph[a][b] or graph[a][b] > c:
+        graph[a][b] = c
 
 minimums = []
 for i in range(n):
     heap, costs = [], [0] * n
-    for cost, index in buses[i]:
-        if not costs[index] or costs[index] > cost:
-            heappush(heap, (cost, index))
-            costs[index] = cost
+    for j in range(n):
+        if graph[i][j] and i != j:
+            heappush(heap, (graph[i][j], j))
+            costs[j] = graph[i][j]
     while heap:
-        cost_current, index_current = heappop(heap)
-        for cost_next, index_next in buses[index_current]:
-            if i != index_next:
-                cost_next += cost_current
-                if not costs[index_next] or costs[index_next] > cost_next:
-                    heappush(heap, (cost_next, index_next))
-                    costs[index_next] = cost_next
+        cost_current, index = heappop(heap)
+        for j in range(n):
+            if graph[index][j] and i != j and index != j:
+                cost_next = graph[index][j] + cost_current
+                if not costs[j] or costs[j] > cost_next:
+                    heappush(heap, (cost_next, j))
+                    costs[j] = cost_next
     minimums.append(costs)
 
 for m1 in minimums:
     for m2 in m1:
         print(m2, end=' ')
     print()
+
+n, m = int(stdin.readline()), int(stdin.readline())
+graph = [[9900001] * i + [0] + [9900001] * (n - i - 1) for i in range(n)]
+for _ in range(m):
+    a, b, c = map(int, stdin.readline().split())
+    a, b = a - 1, b - 1
+    if graph[a][b] > c:
+        graph[a][b] = c
 
 """
 입력 예시
