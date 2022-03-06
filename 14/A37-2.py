@@ -1,30 +1,26 @@
 # 플로이드
 from sys import stdin
-from heapq import heappush, heappop
 
 n, m = int(stdin.readline()), int(stdin.readline())
-buses: list = [[] for _ in range(n)]
+graph = [[100001] * i + [0] + [100001] * (n - i - 1) for i in range(n)]
 for _ in range(m):
     a, b, c = map(int, stdin.readline().split())
-    buses[a - 1].append((c, b - 1))
+    a, b = a - 1, b - 1
+    if graph[a][b] > c:
+        graph[a][b] = c
 
-minimums = []
-for i in range(n):
-    heap, costs = [], [0] * n
-    for cost, index in buses[i]:
-        heappush(heap, (cost, index))
-        costs[index] = cost
-    while heap:
-        cost_current, index_current = heappop(heap)
-        for cost_next, index_next in buses[index_current]:
-            if i != index_next:
-                cost_next += cost_current
-                if not costs[index_next] or costs[index_next] > cost_next:
-                    heappush(heap, (cost_next, index_next))
-                    costs[index_next] = cost_next
-    minimums.append(costs)
-for minimums in minimums:
-    print(minimums)
+for k in range(n):
+    for a in range(n):
+        for b in range(n):
+            graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
+
+for a in range(n):
+    for b in range(n):
+        if graph[a][b] > 100000:
+            print(0, end=' ')
+        else:
+            print(graph[a][b], end=' ')
+    print()
 
 """
 입력 예시
