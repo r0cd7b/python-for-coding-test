@@ -12,7 +12,7 @@ for _ in range(m):
 for k in range(n):
     for a in range(n):
         for b in range(n):
-            if graph[a][k] and graph[k][b] and a != b:
+            if a != k != b and a != b:
                 graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
 
 for g1 in graph:
