@@ -4,10 +4,10 @@ from sys import stdin
 n, m = int(stdin.readline()), int(stdin.readline())
 graph = [[0] * n for _ in range(n)]
 for _ in range(m):
-    a, b, graph = map(int, stdin.readline().split())
+    a, b, c = map(int, stdin.readline().split())
     a, b = a - 1, b - 1
-    if not graph[a][b] or graph[a][b] > graph:
-        graph[a][b] = graph
+    if not graph[a][b] or graph[a][b] > c:
+        graph[a][b] = c
 
 for k in range(n):
     for a in range(n):
