@@ -7,21 +7,21 @@ for _ in range(m):
     a, b = map(int, stdin.readline().split())
     graph[a - 1][b - 1] = True
 
-for i in range(n):
-    for j in range(n):
-        if i != j:
-            for k in range(n):
-                if i != k != j and graph[j][i] and graph[i][k]:
-                    graph[j][k] = True
-students = 0
+for k in range(n):
+    for a in range(n):
+        if k != a:
+            for b in range(n):
+                if k != b != a and graph[a][k] and graph[k][b]:
+                    graph[a][b] = True
+result = 0
 for i in range(n):
     for j in range(n):
         if not (i == j or graph[i][j] or graph[j][i]):
             break
     else:
-        students += 1
+        result += 1
 
-print(students)
+print(result)
 
 """
 입력 예시
