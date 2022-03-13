@@ -11,11 +11,12 @@ for _ in range(m):
 
 for k in range(n):
     for a in range(n):
-        for b in range(n):
-            if graph[a][k] and graph[k][b] and a != b:
-                cost = graph[a][k] + graph[k][b]
-                if not graph[a][b] or graph[a][b] > cost:
-                    graph[a][b] = cost
+        if graph[a][k]:
+            for b in range(n):
+                if graph[k][b] and a != b:
+                    cost = graph[a][k] + graph[k][b]
+                    if not graph[a][b] or graph[a][b] > cost:
+                        graph[a][b] = cost
 
 for g1 in graph:
     for g2 in g1:

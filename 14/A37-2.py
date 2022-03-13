@@ -11,9 +11,10 @@ for _ in range(m):
 
 for k in range(n):
     for a in range(n):
-        for b in range(n):
-            if a != k != b and a != b:
-                graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
+        if a != k:
+            for b in range(n):
+                if k != b != a:
+                    graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
 
 for g1 in graph:
     for g2 in g1:

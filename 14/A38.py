@@ -9,9 +9,9 @@ for _ in range(m):
 
 for k in range(n):
     for a in range(n):
-        if k != a:
+        if graph[a][k]:
             for b in range(n):
-                if k != b != a and graph[a][k] and graph[k][b]:
+                if graph[k][b] and a != b:
                     graph[a][b] = True
 result = 0
 for i in range(n):
