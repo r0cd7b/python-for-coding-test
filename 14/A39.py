@@ -5,7 +5,7 @@ from heapq import heappop, heappush
 costs = ""
 for _ in range(int(stdin.readline())):
     graph = [list(map(int, stdin.readline().split())) for _ in range(int(stdin.readline()))]
-    distance, q = [[140625] * len(graph) for _ in range(len(graph))], [(graph[0][0], 0, 0)]
+    distance, q = [[125 ** 2 * 9] * len(graph) for _ in range(len(graph))], [(graph[0][0], 0, 0)]
     distance[0][0] = graph[0][0]
     while q:
         dist, x, y = heappop(q)
