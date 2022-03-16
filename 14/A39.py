@@ -2,7 +2,7 @@
 from sys import stdin
 from heapq import heappop, heappush
 
-costs = []
+costs = ""
 for _ in range(int(stdin.readline())):
     graph = [list(map(int, stdin.readline().split())) for _ in range(int(stdin.readline()))]
     distance, q = [[140625] * len(graph) for _ in range(len(graph))], [(graph[0][0], 0, 0)]
@@ -15,9 +15,8 @@ for _ in range(int(stdin.readline())):
                 if distance[nx][ny] > cost:
                     heappush(q, (cost, nx, ny))
                     distance[nx][ny] = cost
-    costs.append(distance[-1][-1])
-for cost in costs:
-    print(cost)
+    costs += str(distance[-1][-1]) + '\n'
+print(costs, end='')
 
 """
 입력 예시
