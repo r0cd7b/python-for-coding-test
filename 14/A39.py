@@ -3,7 +3,7 @@ from sys import stdin
 from heapq import heappop, heappush
 
 costs = []
-for tc in range(int(stdin.readline())):
+for _ in range(int(stdin.readline())):
     graph = [list(map(int, stdin.readline().split())) for _ in range(int(stdin.readline()))]
     distance, q = [[140625] * len(graph) for _ in range(len(graph))], [(graph[0][0], 0, 0)]
     distance[0][0] = graph[0][0]
