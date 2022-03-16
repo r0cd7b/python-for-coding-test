@@ -1,25 +1,23 @@
 # 화성 탐사
 from sys import stdin
-from heapq import heapify, heappop, heappush
+from heapq import heappop, heappush
 
-INF, minimums = 125 ** 2 * 9 + 1, []
-for _ in range(int(stdin.readline())):
-    space = [list(map(int, stdin.readline().split())) for _ in range(int(stdin.readline()))]
-    costs: list = [[INF] * len(space) for _ in range(len(space))]
-    costs[0][0], costs[0][1], costs[1][0] = space[0][0], space[0][0] + space[0][1], space[0][0] + space[1][0]
-    heap = [(costs[0][1], 0, 1), (costs[1][0], 1, 0)]
-    heapify(heap)
-    while heap:
-        cost, y, x = heappop(heap)
-        for next_y, next_x in [(y, x - 1), (y, x + 1), (y - 1, x), (y + 1, x)]:
-            if 0 <= next_y < len(space) and 0 <= next_x < len(space):
-                transit = cost + space[next_y][next_x]
-                if costs[next_y][next_x] > transit:
-                    heappush(heap, (transit, next_y, next_x))
-                    costs[next_y][next_x] = transit
-    minimums.append(costs[-1][-1])
-for minimum in minimums:
-    print(minimum)
+costs = []
+for tc in range(int(stdin.readline())):
+    graph = [list(map(int, stdin.readline().split())) for _ in range(int(stdin.readline()))]
+    distance, q = [[140625] * len(graph) for _ in range(len(graph))], [(graph[0][0], 0, 0)]
+    distance[0][0] = graph[0][0]
+    while q:
+        dist, x, y = heappop(q)
+        for nx, ny in [(x, y - 1), (x, y + 1), (x - 1, y), (x + 1, y)]:
+            if 0 <= nx < len(graph) and 0 <= ny < len(graph):
+                cost = graph[nx][ny] + dist
+                if distance[nx][ny] > cost:
+                    heappush(q, (cost, nx, ny))
+                    distance[nx][ny] = cost
+    costs.append(distance[-1][-1])
+for cost in costs:
+    print(cost)
 
 """
 입력 예시
