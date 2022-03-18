@@ -9,7 +9,6 @@ for _ in range(m):
     a, b = a - 1, b - 1
     barns[a].append((1, b))
     barns[b].append((1, a))
-
 heap, distances = [(0, 0)], [0] + [20000] * (n - 1)
 while heap:
     distance_current, current_barn = heappop(heap)
