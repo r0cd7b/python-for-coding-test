@@ -9,7 +9,9 @@ for _ in range(m):
     a, b = a - 1, b - 1
     barns[a].append((1, b))
     barns[b].append((1, a))
-heap, distances = [(0, 0)], [0] + [20000] * (n - 1)
+heap, distances = [barn for barn in barns[0]], [0] + [19999] * (n - 1)
+for distance, barn in barns[0]:
+    distances[barn] = distance
 while heap:
     distance_current, current_barn = heappop(heap)
     for distance_next, next_barn in barns[current_barn]:
@@ -17,8 +19,13 @@ while heap:
         if distances[next_barn] > total_distance:
             heappush(heap, (total_distance, next_barn))
             distances[next_barn] = total_distance
-distance = max(distances)
-print(distances.index(distance), distance, distances.count(distance))
+distance, number, barn = distances[1], 1, 1
+for i in range(2, n):
+    if distances[i] > distance:
+        distance, number, barn = distances[i], 1, i
+    elif distances[i] == distance:
+        number += 1
+print(barn + 1, distance, number)
 
 """
 입력 예시
