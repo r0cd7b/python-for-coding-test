@@ -1,15 +1,16 @@
 # 여행 계획
 from sys import stdin
 
-n = int(stdin.readline().split()[0])
-destinations, connections, plan = [list(map(int, stdin.readline().split())) for _ in range(n)], [i for i in range(n)], [
-    int(s) - 1 for s in stdin.readline().split()]
-for i in range(n - 1):
+n, m = map(int, stdin.readline().split())
+parent = [i for i in range(n)]
+for i in range(n):
+    data = list(map(int, stdin.readline().split()))
     for j in range(i + 1, n):
-        if destinations[i][j]:
-            connections[j] = connections[i]
-for i in range(1, len(plan)):
-    if connections[plan[0]] != connections[plan[i]]:
+        if data[j]:
+            parent[j] = parent[i]
+plan = [int(s) - 1 for s in stdin.readline().split()]
+for i in range(1, m):
+    if parent[plan[i]] != parent[plan[0]]:
         print("NO")
         break
 else:
