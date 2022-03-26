@@ -8,15 +8,11 @@ def find_parent(x):
     return parent[x]
 
 
-G, P = int(stdin.readline()), int(stdin.readline())
-g, parent = [int(stdin.readline()) for _ in range(P)], [i for i in range(G + 1)]
-for i in range(P):
-    if not find_parent(g[i]):
-        print(i)
-        break
-    parent[g[i]] = find_parent(parent[g[i]] - 1)
-else:
-    print(P)
+g, p = int(stdin.readline()), int(stdin.readline())
+gates, result, parent = [int(stdin.readline()) for _ in range(p)], 0, [i for i in range(g + 1)]
+while p > result and find_parent(gates[result]):
+    parent[gates[result]], result = find_parent(parent[gates[result]] - 1), result + 1
+print(result)
 
 """
 입력 예시 1
