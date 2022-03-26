@@ -11,10 +11,10 @@ def find_parent(x):
 G, P = int(stdin.readline()), int(stdin.readline())
 g, parent = [int(stdin.readline()) for _ in range(P)], [i for i in range(G + 1)]
 for i in range(P):
-    if not find_parent(parent, g[i]):
+    if not find_parent(g[i]):
         print(i)
         break
-    parent[g[i]] = find_parent(parent, parent[g[i]] - 1)
+    parent[g[i]] = find_parent(parent[g[i]] - 1)
 else:
     print(P)
 
