@@ -2,21 +2,17 @@
 from sys import stdin
 
 
-def find_parent(parent_, x):
-    while parent_[parent_[x]] != parent_[x]:
-        parent_[x] = parent_[parent_[x]]
-    return parent_[x]
+def find_parent(x):
+    while parent[x] != parent[parent[x]]:
+        parent[x] = parent[parent[x]]
+    return parent[x]
 
 
-G, P = int(stdin.readline()), int(stdin.readline())
-g, parent = [int(stdin.readline()) for _ in range(P)], [i for i in range(G + 1)]
-for i in range(P):
-    if not find_parent(parent, g[i]):
-        print(i)
-        break
-    parent[g[i]] = find_parent(parent, parent[g[i]] - 1)
-else:
-    print(P)
+g, p = int(stdin.readline()), int(stdin.readline())
+parent = [i for i in range(g + 1)]
+result = 0
+for _ in range(p):
+    pass
 
 """
 입력 예시 1

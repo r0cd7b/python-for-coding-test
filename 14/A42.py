@@ -2,10 +2,10 @@
 from sys import stdin
 
 
-def find_parent(parent_, x):
-    while parent_[parent_[x]] != parent_[x]:
-        parent_[x] = parent_[parent_[x]]
-    return parent_[x]
+def find_parent(x):
+    while parent[x] != parent[parent[x]]:
+        parent[x] = parent[parent[x]]
+    return parent[x]
 
 
 G, P = int(stdin.readline()), int(stdin.readline())
