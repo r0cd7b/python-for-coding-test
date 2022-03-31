@@ -5,7 +5,15 @@ n, planets = int(stdin.readline()), []
 for i in range(n):
     x, y, z = map(int, stdin.readline().split())
     planets.append((i, x, y, z))
-print(planets)
+print(planets, end="\n\n")
+tunnels = []
+for i in range(1, 4):
+    planets.sort(key=lambda p: p[i])
+    print(planets)
+    for j in range(n - 1):
+        next_ = j + 1
+        tunnels.append((abs(planets[j][i] - planets[next_][i]), planets[j][0], planets[next_][0]))
+    print(tunnels, end="\n\n")
 
 """
 입력 예시
