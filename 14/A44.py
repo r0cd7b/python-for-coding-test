@@ -12,17 +12,17 @@ n, planets = int(stdin.readline()), []
 for i in range(n):
     x, y, z = map(int, stdin.readline().split())
     planets.append((i, x, y, z))
-tunnels = []
+edges = []
 for i in range(1, 4):
     planets.sort(key=lambda p: p[i])
     for j in range(n - 1):
         next_ = j + 1
-        tunnels.append((abs(planets[j][i] - planets[next_][i]), planets[j][0], planets[next_][0]))
-parent, minimum = [i for i in range(n)], 0
-for cost, a, b in sorted(tunnels):
+        edges.append((abs(planets[j][i] - planets[next_][i]), planets[j][0], planets[next_][0]))
+parent, result = [i for i in range(n)], 0
+for cost, a, b in sorted(edges):
     if find_parent(a) != find_parent(b):
-        minimum, parent[parent[b]] = minimum + cost, parent[a]
-print(minimum)
+        result, parent[parent[b]] = result + cost, parent[a]
+print(result)
 
 """
 입력 예시
