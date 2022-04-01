@@ -1,6 +1,13 @@
 # 행성 터널
 from sys import stdin
 
+
+def find_parent(x_):
+    while parent[x_] != parent[parent[x_]]:
+        parent[x_] = parent[parent[x_]]
+    return parent[x_]
+
+
 n, planets = int(stdin.readline()), []
 for i in range(n):
     x, y, z = map(int, stdin.readline().split())
@@ -13,11 +20,7 @@ for i in range(1, 4):
         tunnels.append((abs(planets[j][i] - planets[next_][i]), planets[j][0], planets[next_][0]))
 parent, minimum = [i for i in range(n)], 0
 for cost, a, b in sorted(tunnels):
-    while parent[a] != parent[parent[a]]:
-        parent[a] = parent[parent[a]]
-    while parent[b] != parent[parent[b]]:
-        parent[b] = parent[parent[b]]
-    if parent[a] != parent[b]:
+    if find_parent(a) != find_parent(b):
         minimum, parent[parent[b]] = minimum + cost, parent[a]
 print(minimum)
 
