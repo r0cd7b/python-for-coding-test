@@ -3,10 +3,11 @@ from sys import stdin
 
 for _ in range(int(stdin.readline())):
     n = int(stdin.readline())
-    graph, t = [[] for _ in range(n)], list(map(int, stdin.readline().split()))
+    graph, t = [[] for _ in range(n)], [int(s) - 1 for s in stdin.readline().split()]
     for i in range(n):
         for j in range(i + 1, n):
-            graph[t[i]][t[j]] = True
+            graph[t[i]].append(t[j])
+    degree = [i for i in range(n)]
     for _ in range(int(stdin.readline())):
         a, b = map(int, stdin.readline().split())
         a, b = a - 1, b - 1
