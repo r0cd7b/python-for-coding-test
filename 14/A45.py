@@ -1,9 +1,16 @@
 # 최종 순위
 from sys import stdin
 
-n = int(stdin.readline())
-for _ in range(n):
-    t = list(map(int, stdin.readline().split()))
+for _ in range(int(stdin.readline())):
+    n = int(stdin.readline())
+    graph, t = [[False] * n for _ in range(n)], [int(s) - 1 for s in stdin.readline().split()]
+    for i in range(n):
+        for j in range(i + 1, n):
+            graph[t[i]][t[j]] = True
+    for _ in range(int(stdin.readline())):
+        a, b = map(int, stdin.readline().split())
+        a, b = a - 1, b - 1
+        graph[a][b], graph[b][a] = True, False
 
 """
 입력 예시
