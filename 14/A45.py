@@ -3,7 +3,7 @@ from sys import stdin
 
 for _ in range(int(stdin.readline())):
     n = int(stdin.readline())
-    graph, t = [[False] * n for _ in range(n)], [int(s) - 1 for s in stdin.readline().split()]
+    graph, t = [[] for _ in range(n)], list(map(int, stdin.readline().split()))
     for i in range(n):
         for j in range(i + 1, n):
             graph[t[i]][t[j]] = True
