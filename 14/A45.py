@@ -4,25 +4,22 @@ from collections import deque
 
 results = []
 for _ in range(int(stdin.readline())):
-    n, t = int(stdin.readline()), [int(s) - 1 for s in stdin.readline().split()]
+    n, data = int(stdin.readline()), [int(s) - 1 for s in stdin.readline().split()]
 
-    entries = [0] * n
-    for i in range(n):
-        entries[t[i]] = i
-
-    graph = [[False] * n for _ in range(n)]
+    degree, graph = [0] * n, [[False] * n for _ in range(n)]
     for i in range(n):
         for j in range(i + 1, n):
-            graph[t[i]][t[j]] = True
+            degree[data[j]], graph[data[i]][data[j]] = degree[data[j]] + 1, True
 
     for _ in range(int(stdin.readline())):
         a, b = map(int, stdin.readline().split())
         a, b = a - 1, b - 1
-        entries[a], entries[b], graph[a][b], graph[b][a] = entries[a] - 1, entries[b] + 1, True, False
+        x = 1 if graph[a][b] else -1
+        degree[a], degree[b], graph[a][b], graph[b][a] = degree[a] + x, degree[b] - x, not graph[a][b], graph[a][b]
 
     zeros, queue, rank = 0, deque(), ""
     for i in range(n):
-        if not entries[i]:
+        if not degree[i]:
             zeros += 1
             queue.append(i)
 
@@ -34,8 +31,8 @@ for _ in range(int(stdin.readline())):
         now, zeros = queue.pop(), 0
         for i in range(n):
             if graph[now][i]:
-                entries[i] -= 1
-                if not entries[i]:
+                degree[i] -= 1
+                if not degree[i]:
                     zeros += 1
                     queue.append(i)
         if zeros > 1:
@@ -43,7 +40,7 @@ for _ in range(int(stdin.readline())):
             break
         rank += f"{now + 1} "
     else:
-        if entries.count(0) < n:
+        if degree.count(0) < n:
             results.append("IMPOSSIBLE")
         else:
             results.append(rank)
