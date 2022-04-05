@@ -5,45 +5,37 @@ from collections import deque
 results = []
 for _ in range(int(stdin.readline())):
     n, data = int(stdin.readline()), [int(s) - 1 for s in stdin.readline().split()]
-
-    degree, graph = [0] * n, [[False] * n for _ in range(n)]
+    in_degree, graph = [0] * n, [[False] * n for _ in range(n)]
     for i in range(n):
         for j in range(i + 1, n):
-            degree[data[j]], graph[data[i]][data[j]] = degree[data[j]] + 1, True
-
+            in_degree[data[j]], graph[data[i]][data[j]] = in_degree[data[j]] + 1, True
     for _ in range(int(stdin.readline())):
         a, b = map(int, stdin.readline().split())
         a, b = a - 1, b - 1
         one = 1 if graph[a][b] else -1
-        degree[a], degree[b], graph[a][b], graph[b][a] = degree[a] + one, degree[b] - one, not graph[a][b], graph[a][b]
-
-    zeros, queue, rank = 0, deque(), []
+        in_degree[a], in_degree[b], graph[a][b], graph[b][a] = in_degree[a] + one, in_degree[b] - one, not graph[a][b], \
+                                                               graph[a][b]
+    q = deque()
     for i in range(n):
-        if not degree[i]:
-            zeros += 1
-            queue.append(i)
-    if zeros > 1:
-        results.append("?")
-        continue
-
-    while queue:
-        now, zeros = queue.pop(), 0
-        for i in range(n):
-            if graph[now][i]:
-                degree[i] -= 1
-                if not degree[i]:
-                    zeros += 1
-                    queue.append(i)
-        if zeros > 1:
+        if not in_degree[i]:
+            q.append(i)
+    result = []
+    for _ in range(n):
+        if len(q) < 1:
+            results.append("IMPOSSIBLE")
+            break
+        if len(q) > 1:
             results.append("?")
             break
-        rank.append(str(now + 1))
+        now = q.pop()
+        result.append(str(now + 1))
+        for i in range(n):
+            if graph[now][i]:
+                in_degree[i] -= 1
+                if not in_degree[i]:
+                    q.append(i)
     else:
-        if degree.count(0) < n:
-            results.append("IMPOSSIBLE")
-        else:
-            results.append(' '.join(rank))
-
+        results.append(' '.join(result))
 print('\n'.join(results))
 
 """
