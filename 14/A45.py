@@ -17,12 +17,11 @@ for _ in range(int(stdin.readline())):
         x = 1 if graph[a][b] else -1
         degree[a], degree[b], graph[a][b], graph[b][a] = degree[a] + x, degree[b] - x, not graph[a][b], graph[a][b]
 
-    zeros, queue, rank = 0, deque(), ""
+    zeros, queue, rank = 0, deque(), []
     for i in range(n):
         if not degree[i]:
             zeros += 1
             queue.append(i)
-
     if zeros > 1:
         results.append("?")
         continue
@@ -38,15 +37,14 @@ for _ in range(int(stdin.readline())):
         if zeros > 1:
             results.append("?")
             break
-        rank += f"{now + 1} "
+        rank.append(str(now + 1))
     else:
         if degree.count(0) < n:
             results.append("IMPOSSIBLE")
         else:
-            results.append(rank)
+            results.append(' '.join(rank))
 
-for result in results:
-    print(result)
+print('\n'.join(results))
 
 """
 입력 예시
