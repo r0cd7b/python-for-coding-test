@@ -14,8 +14,8 @@ for _ in range(int(stdin.readline())):
     for _ in range(int(stdin.readline())):
         a, b = map(int, stdin.readline().split())
         a, b = a - 1, b - 1
-        x = 1 if graph[a][b] else -1
-        degree[a], degree[b], graph[a][b], graph[b][a] = degree[a] + x, degree[b] - x, not graph[a][b], graph[a][b]
+        one = 1 if graph[a][b] else -1
+        degree[a], degree[b], graph[a][b], graph[b][a] = degree[a] + one, degree[b] - one, not graph[a][b], graph[a][b]
 
     zeros, queue, rank = 0, deque(), []
     for i in range(n):
