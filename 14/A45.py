@@ -12,9 +12,9 @@ for _ in range(int(stdin.readline())):
     for _ in range(int(stdin.readline())):
         a, b = map(int, stdin.readline().split())
         a, b = a - 1, b - 1
-        one = 1 if graph[a][b] else -1
-        in_degree[a], in_degree[b], graph[a][b], graph[b][a] = in_degree[a] + one, in_degree[b] - one, not graph[a][b], \
-                                                               graph[a][b]
+        change = 1 if graph[a][b] else -1
+        in_degree[a], in_degree[b], graph[a][b], graph[b][a] = in_degree[a] + change, in_degree[b] - change, not \
+        graph[a][b], graph[a][b]
     q = deque()
     for i in range(n):
         if not in_degree[i]:
