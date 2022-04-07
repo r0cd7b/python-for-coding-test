@@ -6,7 +6,6 @@ from copy import deepcopy
 n = int(stdin.readline())
 initial_visits = [[False] * n for _ in range(n)]
 space, deque_, visits, baby = [], deque(), deepcopy(initial_visits), {"size": 2, "eaten": 0, "time": 0}
-
 for i in range(n):
     space.append(list(map(int, stdin.readline().split())))
     for j in range(n):
@@ -14,7 +13,6 @@ for i in range(n):
             deque_.append((i, j, 0))
             visits[i][j] = True
             break
-
 while deque_:
     x, y, time = deque_.popleft()
     eat, next_time = False, time + 1
@@ -28,7 +26,6 @@ while deque_:
                     baby["size"], baby["eaten"] = baby["size"] + 1, 0
             deque_.append((next_x, next_y, next_time))
             visits[next_x][next_y] = True
-
 print(baby["time"])
 
 """
