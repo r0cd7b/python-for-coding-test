@@ -3,10 +3,15 @@ from sys import stdin
 from collections import deque
 
 
-def move():
-    if not visits[x][y] and space[x][y] <= size:
+def move(size_, eaten_):
+    if not visits[x][y] and space[x][y] <= size_:
         visits[x][y] = True
         queue.append((x, y))
+        if space[x][y] >= 1:
+            eaten_ += 1
+            if size_ <= eaten_:
+                size_, eaten_ = size + 1, 0
+    return size_, eaten_
 
 
 n, space, position = int(stdin.readline()), [], None
@@ -16,20 +21,20 @@ for i in range(n):
         if space[i][j] == 9:
             position = (i, j)
 
-visits, size, queue = [[False] * n for _ in range(n)], 2, deque()
+eaten, visits, size, queue = 0, [[False] * n for _ in range(n)], 2, deque()
 while True:
     x, y = position[0] - 1, 0
     if x >= 0:
-        move()
+        size, eaten = move(size, eaten)
     x, y = position[0] + 1, 0
     if x < n:
-        move()
+        size, eaten = move(size, eaten)
     x, y = 0, position[1] - 1
     if y >= 0:
-        move()
+        size, eaten = move(size, eaten)
     x, y = 0, position[1] + 1
     if y < n:
-        move()
+        size, eaten = move(size, eaten)
     if not queue:
         break
     position = queue.popleft()
