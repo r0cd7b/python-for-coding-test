@@ -5,11 +5,11 @@ from copy import deepcopy
 
 n = int(stdin.readline())
 initial_visits = [[False] * n for _ in range(n)]
-space, deque_, visits, baby = [], deque(), deepcopy(initial_visits), {"size": 2, "eaten": 0, "time": 0}
+spaces, deque_, visits, baby = [], deque(), deepcopy(initial_visits), {"size": 2, "eaten": 0, "time": 0}
 for i in range(n):
-    space.append(list(map(int, stdin.readline().split())))
+    spaces.append(list(map(int, stdin.readline().split())))
     for j in range(n):
-        if space[i][j] == 9:
+        if spaces[i][j] == 9:
             deque_.append((i, j, 0))
             visits[i][j] = True
             break
@@ -18,12 +18,17 @@ while deque_:
     eat, next_time = False, time + 1
     for next_x, next_y in [(x - 1, y), (x, y - 1), (x, y + 1), (x + 1, y)]:
         if not eat and n > next_x >= 0 and n > next_y >= 0 and not visits[next_x][next_y]:
-            if baby["size"] > space[next_x][next_y] > 0:
-                space[next_x][next_y], visits, baby["eaten"], baby["time"], eat = 0, deepcopy(initial_visits), baby[
+            if baby["size"] > spaces[next_x][next_y] > 0:
+                spaces[next_x][next_y], visits, baby["eaten"], baby["time"], eat = 0, deepcopy(initial_visits), baby[
                     "eaten"] + 1, next_time, True
                 deque_.clear()
                 if baby["size"] <= baby["eaten"]:
                     baby["size"], baby["eaten"] = baby["size"] + 1, 0
+
+                for space in spaces:
+                    print(space)
+                print(baby, end='\n\n')
+
             deque_.append((next_x, next_y, next_time))
             visits[next_x][next_y] = True
 print(baby["time"])
