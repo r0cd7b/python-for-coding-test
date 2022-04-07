@@ -1,43 +1,35 @@
 # 아기 상어
 from sys import stdin
 from collections import deque
+from copy import deepcopy
 
+n = int(stdin.readline())
+initial_visits = [[False] * n for _ in range(n)]
+space, deque_, visits, baby = [], deque(), deepcopy(initial_visits), {"size": 2, "eaten": 0, "time": 0}
 
-def move(size_, eaten_):
-    if not visits[x][y] and space[x][y] <= size_:
-        visits[x][y] = True
-        queue.append((x, y))
-        if space[x][y] >= 1:
-            eaten_ += 1
-            if size_ <= eaten_:
-                size_, eaten_ = size + 1, 0
-    return size_, eaten_
-
-
-n, space, position = int(stdin.readline()), [], None
 for i in range(n):
     space.append(list(map(int, stdin.readline().split())))
     for j in range(n):
         if space[i][j] == 9:
-            position = (i, j)
+            deque_.append((i, j, 0))
+            visits[i][j] = True
+            break
 
-eaten, visits, size, queue = 0, [[False] * n for _ in range(n)], 2, deque()
-while True:
-    x, y = position[0] - 1, 0
-    if x >= 0:
-        size, eaten = move(size, eaten)
-    x, y = position[0] + 1, 0
-    if x < n:
-        size, eaten = move(size, eaten)
-    x, y = 0, position[1] - 1
-    if y >= 0:
-        size, eaten = move(size, eaten)
-    x, y = 0, position[1] + 1
-    if y < n:
-        size, eaten = move(size, eaten)
-    if not queue:
-        break
-    position = queue.popleft()
+while deque_:
+    x, y, time = deque_.popleft()
+    eat, next_time = False, time + 1
+    for next_x, next_y in [(x - 1, y), (x, y - 1), (x, y + 1), (x + 1, y)]:
+        if not eat and n > next_x >= 0 and n > next_y >= 0 and not visits[next_x][next_y]:
+            if baby["size"] > space[next_x][next_y] > 0:
+                space[next_x][next_y], visits, baby["eaten"], baby["time"], eat = 0, deepcopy(initial_visits), baby[
+                    "eaten"] + 1, next_time, True
+                deque_.clear()
+                if baby["size"] <= baby["eaten"]:
+                    baby["size"], baby["eaten"] = baby["size"] + 1, 0
+            deque_.append((next_x, next_y, next_time))
+            visits[next_x][next_y] = True
+
+print(baby["time"])
 
 """
 입력 예시 1
