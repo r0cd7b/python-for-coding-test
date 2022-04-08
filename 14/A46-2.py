@@ -4,12 +4,13 @@ from copy import deepcopy
 from heapq import heappop, heappush
 
 n = int(stdin.readline())
-space, heap, initial = [list(map(int, stdin.readline().split())) for _ in range(n)], [], [[False] * n for _ in range(n)]
+space, baby, heap, initial = \
+    [list(map(int, stdin.readline().split())) for _ in range(n)], (), [], [[False] * n for _ in range(n)]
 for i in range(n):
     for j in range(n):
         if space[i][j] == 9:
+            space[i][j], baby = -1, (i, j)
             heap.append((0, i, j))
-            space[i][j] = 0
             break
     else:
         continue
@@ -22,10 +23,17 @@ while heap:
         if n > next_x >= 0 and n > next_y >= 0 and space[x][y] <= size and not visit[next_x][next_y]:
             added = distance + 1
             if size > space[next_x][next_y] >= 1:
-                space[next_x][next_y], heap, visit, eaten, time = \
-                    0, [(0, next_x, next_y)], deepcopy(initial), eaten + 1, time + added
+                space[baby[0]][baby[1]], space[next_x][next_y] = 0, -1
+                baby, heap, visit, eaten, time = \
+                    (next_x, next_y), [(0, next_x, next_y)], deepcopy(initial), eaten + 1, time + added
                 if size <= eaten:
                     size, eaten = size + 1, 0
+
+                print()
+                for s in space:
+                    print(s)
+                print(f"size = {size}, eaten = {eaten}, time = {time}")
+
                 break
             heappush(heap, (added, next_x, next_y))
 print(time)

@@ -8,8 +8,8 @@ space, heap, initial = [list(map(int, stdin.readline().split())) for _ in range(
 for i in range(n):
     for j in range(n):
         if space[i][j] == 9:
-            heap.append((0, i, j))
             space[i][j] = 0
+            heap.append((0, i, j))
             break
     else:
         continue
