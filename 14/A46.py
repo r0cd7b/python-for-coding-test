@@ -1,33 +1,50 @@
 # 아기 상어
 from sys import stdin
 from copy import deepcopy
-from heapq import heappop, heappush
+from heapq import heappush, heappop
+
+
+def visit_next(distance, x, y):
+    visit[x][y], next_ = True, x - 1
+    if next_ >= 0:
+        push(distance, next_, y)
+    next_ = x + 1
+    if n > next_:
+        push(distance, next_, y)
+    next_ = y - 1
+    if next_ >= 0:
+        push(distance, x, next_)
+    next_ = y + 1
+    if n > next_:
+        push(distance, x, next_)
+
+
+def push(distance, x, y):
+    if space[x][y] <= size and not visit[x][y]:
+        heappush(heap, (distance + 1, x, y))
+
 
 n = int(stdin.readline())
-space, heap, initial = [list(map(int, stdin.readline().split())) for _ in range(n)], [], [[False] * n for _ in range(n)]
+initial = [[False] * n for _ in range(n)]
+space, visit, size, heap = [list(map(int, stdin.readline().split())) for _ in range(n)], deepcopy(initial), 2, []
 for i in range(n):
     for j in range(n):
         if space[i][j] == 9:
             space[i][j] = 0
-            heap.append((0, i, j))
+            visit_next(0, i, j)
             break
     else:
         continue
     break
-visit, size, eaten, time = deepcopy(initial), 2, 0, 0
+eaten, time = 0, 0
 while heap:
-    distance, x, y = heappop(heap)
-    visit[x][y] = True
-    for next_x, next_y in [(x, y - 1), (x, y + 1), (x - 1, y), (x + 1, y)]:
-        if n > next_x >= 0 and n > next_y >= 0 and space[x][y] <= size and not visit[next_x][next_y]:
-            added = distance + 1
-            if size > space[next_x][next_y] >= 1:
-                space[next_x][next_y], heap, visit, eaten, time = \
-                    0, [(0, next_x, next_y)], deepcopy(initial), eaten + 1, time + added
-                if size <= eaten:
-                    size, eaten = size + 1, 0
-                break
-            heappush(heap, (added, next_x, next_y))
+    distance_, x_, y_ = heappop(heap)
+    if size > space[x_][y_] >= 1:
+        space[x_][y_], visit, eaten, time, distance_ = 0, deepcopy(initial), eaten + 1, time + distance_, 0
+        heap.clear()
+        if size <= eaten:
+            size, eaten = size + 1, 0
+    visit_next(distance_, x_, y_)
 print(time)
 
 """
