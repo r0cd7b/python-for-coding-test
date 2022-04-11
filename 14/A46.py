@@ -26,7 +26,7 @@ def append(x_, y_, distance):
 
 
 n = int(stdin.readline())
-longest = n ** 2
+longest: int = n ** 2
 initial = [[longest] * n for _ in range(n)]
 space, distances, deque_ = [list(map(int, stdin.readline().split())) for _ in range(n)], deepcopy(initial), None
 for i in range(n):
