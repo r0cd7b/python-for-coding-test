@@ -26,18 +26,18 @@ def append(x_, y_, distance):
 
 
 n = int(stdin.readline())
-longest = n * 2 - 1
+longest = n ** 2
 initial = [[longest] * n for _ in range(n)]
-space, deque_, distances = [list(map(int, stdin.readline().split())) for _ in range(n)], None, deepcopy(initial)
+space, distances, deque_ = [list(map(int, stdin.readline().split())) for _ in range(n)], deepcopy(initial), None
 for i in range(n):
     for j in range(n):
         if space[i][j] == 9:
-            space[i][j], deque_, distances[i][j] = 0, deque([(i, j)]), 0
+            space[i][j], distances[i][j], deque_ = 0, 0, deque([(i, j)])
             break
     else:
         continue
     break
-size, time, eaten = 2, 0, 0
+size, eaten, time = 2, 0, 0
 while True:
     while deque_:
         x, y = deque_.popleft()
@@ -49,12 +49,12 @@ while True:
                 shortest, x, y = distances[i][j], i, j
     if shortest >= longest:
         break
-    space[x][y], time = 0, distances[x][y] + time
-    deque_.append((x, y))
-    distances = deepcopy(initial)
-    distances[x][y], eaten = 0, eaten + 1
+    eaten, space[x][y], time = eaten + 1, 0, distances[x][y] + time
     if size <= eaten:
         size, eaten = size + 1, 0
+    distances = deepcopy(initial)
+    distances[x][y] = 0
+    deque_.append((x, y))
 print(time)
 
 """
