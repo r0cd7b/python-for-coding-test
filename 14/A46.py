@@ -1,50 +1,60 @@
 # 아기 상어
 from sys import stdin
 from copy import deepcopy
-from heapq import heappush, heappop
+from collections import deque
 
 
-def visit_next(distance, x, y):
-    visit[x][y], next_ = True, x - 1
+def omnidirectional_append(x_, y_):
+    next_, distance = x_ - 1, distances[x_][y_] + 1
     if next_ >= 0:
-        push(distance, next_, y)
-    next_ = x + 1
+        append(next_, y_, distance)
+    next_ = x_ + 1
     if n > next_:
-        push(distance, next_, y)
-    next_ = y - 1
+        append(next_, y_, distance)
+    next_ = y_ - 1
     if next_ >= 0:
-        push(distance, x, next_)
-    next_ = y + 1
+        append(x_, next_, distance)
+    next_ = y_ + 1
     if n > next_:
-        push(distance, x, next_)
+        append(x_, next_, distance)
 
 
-def push(distance, x, y):
-    if space[x][y] <= size and not visit[x][y]:
-        heappush(heap, (distance + 1, x, y))
+def append(x_, y_, distance):
+    if space[x_][y_] <= size and distances[x_][y_] > distance:
+        distances[x_][y_] = distance
+        deque_.append((x_, y_))
 
 
 n = int(stdin.readline())
-initial = [[False] * n for _ in range(n)]
-space, visit, size, heap = [list(map(int, stdin.readline().split())) for _ in range(n)], deepcopy(initial), 2, []
+longest = n * 2 - 1
+initial = [[longest] * n for _ in range(n)]
+space, deque_, distances = [list(map(int, stdin.readline().split())) for _ in range(n)], None, deepcopy(initial)
 for i in range(n):
     for j in range(n):
         if space[i][j] == 9:
-            space[i][j] = 0
-            visit_next(0, i, j)
+            space[i][j], deque_, distances[i][j] = 0, deque([(i, j)]), 0
             break
     else:
         continue
     break
-eaten, time = 0, 0
-while heap:
-    distance_, x_, y_ = heappop(heap)
-    if size > space[x_][y_] >= 1:
-        space[x_][y_], visit, eaten, time, distance_ = 0, deepcopy(initial), eaten + 1, time + distance_, 0
-        heap.clear()
-        if size <= eaten:
-            size, eaten = size + 1, 0
-    visit_next(distance_, x_, y_)
+size, time, eaten = 2, 0, 0
+while True:
+    while deque_:
+        x, y = deque_.popleft()
+        omnidirectional_append(x, y)
+    shortest, x, y = longest, None, None
+    for i in range(n):
+        for j in range(n):
+            if distances[i][j] < shortest and size > space[i][j] >= 1:
+                shortest, x, y = distances[i][j], i, j
+    if shortest >= longest:
+        break
+    space[x][y], time = 0, distances[x][y] + time
+    deque_.append((x, y))
+    distances = deepcopy(initial)
+    distances[x][y], eaten = 0, eaten + 1
+    if size <= eaten:
+        size, eaten = size + 1, 0
 print(time)
 
 """
