@@ -41,7 +41,6 @@ for i in range(n):
     else:
         continue
     break
-
 time = eaten = 0
 while True:
     for distance, x, y in go:
