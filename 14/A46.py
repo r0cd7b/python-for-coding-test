@@ -46,7 +46,7 @@ for i in range(n):
     else:
         continue
     break
-time = eaten = 0
+eaten = time = 0
 while True:
     while bfs:
         distance, x, y = bfs.popleft()
