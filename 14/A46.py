@@ -1,65 +1,60 @@
 # 아기 상어
 from sys import stdin
-from collections import deque
 from copy import deepcopy
+from collections import deque
 
 
-def first_visit(x_, y_):
-    visited_ = deepcopy(space)
-    visited_[x_][y_] = visited_space
-    omnidirectional_append(x_, y_, 0, visited_)
-    return visited_
-
-
-def omnidirectional_append(x_, y_, distance_, visited_):
-    next_ = x_ - 1
+def omnidirectional_append(x_, y_):
+    next_, distance = x_ - 1, distances[x_][y_] + 1
     if next_ >= 0:
-        append(next_, y_, distance_, visited_)
+        append(next_, y_, distance)
     next_ = x_ + 1
     if n > next_:
-        append(next_, y_, distance_, visited_)
+        append(next_, y_, distance)
     next_ = y_ - 1
     if next_ >= 0:
-        append(x_, next_, distance_, visited_)
+        append(x_, next_, distance)
     next_ = y_ + 1
     if n > next_:
-        append(x_, next_, distance_, visited_)
+        append(x_, next_, distance)
 
 
-def append(x_, y_, distance_, visited_):
-    distance_ += 1
-    if size > visited_[x_][y_] >= 1:
-        edible.append((distance_, x_, y_))
-    if visited_[x_][y_] <= size:
-        visited_[x_][y_] = visited_space
-        bfs.append((distance_, x_, y_))
+def append(x_, y_, distance):
+    if space[x_][y_] <= size and distances[x_][y_] > distance:
+        distances[x_][y_] = distance
+        deque_.append((x_, y_))
 
 
-n, visited, size = int(stdin.readline()), None, 2
-space, visited_space, edible, bfs = [list(map(int, stdin.readline().split())) for _ in range(n)], n ** 2, [], deque()
+n = int(stdin.readline())
+longest: int = n ** 2
+initial = [[longest] * n for _ in range(n)]
+space, distances, deque_ = [list(map(int, stdin.readline().split())) for _ in range(n)], deepcopy(initial), None
 for i in range(n):
     for j in range(n):
         if space[i][j] == 9:
-            space[i][j] = 0
-            visited = first_visit(i, j)
+            space[i][j], distances[i][j], deque_ = 0, 0, deque([(i, j)])
             break
     else:
         continue
     break
-eaten = time = 0
+size, eaten, time = 2, 0, 0
 while True:
-    while bfs:
-        distance, x, y = bfs.popleft()
-        omnidirectional_append(x, y, distance, visited)
-    if not edible:
+    while deque_:
+        x, y = deque_.popleft()
+        omnidirectional_append(x, y)
+    shortest, x, y = longest, None, None
+    for i in range(n):
+        for j in range(n):
+            if distances[i][j] < shortest and size > space[i][j] >= 1:
+                shortest, x, y = distances[i][j], i, j
+    if shortest >= longest:
         break
-    edible.sort()
-    distance, x, y = edible[0]
-    eaten, space[x][y] = eaten + 1, 0
+    eaten, space[x][y], time = eaten + 1, 0, distances[x][y] + time
     if size <= eaten:
         size, eaten = size + 1, 0
-    edible.clear()
-    time, visited = time + distance, first_visit(x, y)
+    distances = deepcopy(initial)
+    distances[x][y] = 0
+    deque_.append((x, y))
 print(time)
 
 """
