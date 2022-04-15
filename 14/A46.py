@@ -26,10 +26,9 @@ def omnidirectional_append(_x, _y, _distances):
 
 
 def append(_x, _y, _distances, _distance_previous):
-    distance = _distance_previous + 1
-    if _distances[_x][_y] > distance and space[_x][_y] <= size:
+    if _distances[_x][_y] >= longest and space[_x][_y] <= size:
         bfs.append((_x, _y))
-        _distances[_x][_y] = distance
+        _distances[_x][_y] = _distance_previous + 1
 
 
 n, distances = int(stdin.readline()), None
