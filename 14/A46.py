@@ -1,61 +1,64 @@
 # 아기 상어
 from sys import stdin
-from copy import deepcopy
 from collections import deque
 
 
-def omnidirectional_append(x_, y_):
-    next_, distance = x_ - 1, distances[x_][y_] + 1
-    if next_ >= 0:
-        append(next_, y_, distance)
-    next_ = x_ + 1
-    if n > next_:
-        append(next_, y_, distance)
-    next_ = y_ - 1
-    if next_ >= 0:
-        append(x_, next_, distance)
-    next_ = y_ + 1
-    if n > next_:
-        append(x_, next_, distance)
+def initial_append(_x, _y):
+    _distances = [[longest] * n for _ in range(n)]
+    _distances[_x][_y], space[_x][_y] = 0, 0
+    omnidirectional_append(_x, _y, _distances)
+    return _distances
 
 
-def append(x_, y_, distance):
-    if space[x_][y_] <= size and distances[x_][y_] > distance:
-        distances[x_][y_] = distance
-        deque_.append((x_, y_))
+def omnidirectional_append(_x, _y, _distances):
+    x_next = _x - 1
+    if x_next >= 0:
+        append(x_next, _y, _distances, _distances[_x][_y])
+    x_next = _x + 1
+    if n > x_next:
+        append(x_next, _y, _distances, _distances[_x][_y])
+    y_next = _y - 1
+    if y_next >= 0:
+        append(_x, y_next, _distances, _distances[_x][_y])
+    y_next = _y + 1
+    if n > y_next:
+        append(_x, y_next, _distances, _distances[_x][_y])
 
 
-n = int(stdin.readline())
-longest: int = n ** 2
-initial = [[longest] * n for _ in range(n)]
-space, distances, deque_ = [list(map(int, stdin.readline().split())) for _ in range(n)], deepcopy(initial), None
+def append(_x, _y, _distances, _distance_previous):
+    distance = _distance_previous + 1
+    if _distances[_x][_y] > distance and space[_x][_y] <= size:
+        bfs.append((_x, _y))
+        _distances[_x][_y] = distance
+
+
+n, distances = int(stdin.readline()), None
+space, longest, size, bfs = [list(map(int, stdin.readline().split())) for _ in range(n)], n ** 2, 2, deque()
 for i in range(n):
     for j in range(n):
         if space[i][j] == 9:
-            space[i][j], distances[i][j], deque_ = 0, 0, deque([(i, j)])
+            distances = initial_append(i, j)
             break
     else:
         continue
     break
-size, eaten, time = 2, 0, 0
+eaten, elapsed = 0, 0
 while True:
-    while deque_:
-        x, y = deque_.popleft()
-        omnidirectional_append(x, y)
-    shortest, x, y = longest, None, None
+    while bfs:
+        x, y = bfs.popleft()
+        omnidirectional_append(x, y, distances)
+    x, y = None, None
     for i in range(n):
         for j in range(n):
-            if distances[i][j] < shortest and size > space[i][j] >= 1:
-                shortest, x, y = distances[i][j], i, j
-    if shortest >= longest:
+            if (x is None or y is None or distances[x][y] > distances[i][j]) and size > space[i][j] >= 1:
+                x, y = i, j
+    if x is None or y is None:
         break
-    eaten, space[x][y], time = eaten + 1, 0, distances[x][y] + time
+    eaten += 1
     if size <= eaten:
         size, eaten = size + 1, 0
-    distances = deepcopy(initial)
-    distances[x][y] = 0
-    deque_.append((x, y))
-print(time)
+    elapsed, distances = distances[x][y] + elapsed, initial_append(x, y)
+print(elapsed)
 
 """
 입력 예시 1
