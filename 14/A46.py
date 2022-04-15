@@ -36,7 +36,7 @@ n, distances = int(stdin.readline()), None
 space, longest, size, bfs = [list(map(int, stdin.readline().split())) for _ in range(n)], n ** 2, 2, deque()
 for i in range(n):
     for j in range(n):
-        if space[i][j] == 9:
+        if space[i][j] >= 9:
             distances = initial_append(i, j)
             break
     else:
