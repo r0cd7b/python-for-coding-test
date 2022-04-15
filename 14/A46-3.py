@@ -4,8 +4,8 @@ from collections import deque
 
 
 def bfs():
-    q, dist = deque([(now_x, now_y)]), [[inf] * n for _ in range(n)]
-    dist[now_x][now_y] = 0
+    array[now_x][now_y], dist = 0, [[inf] * n for _ in range(n)]
+    dist[now_x][now_y], q = 0, deque([(now_x, now_y)])
     while q:
         x, y = q.popleft()
         for nx, ny in [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]:
@@ -37,7 +37,7 @@ while True:
     value = find(bfs())
     if value is None:
         break
-    array[value[1]][value[2]], now_x, now_y, ate, result = 0, value[1], value[2], ate + 1, result + value[0]
+    now_x, now_y, ate, result = value[1], value[2], ate + 1, result + value[0]
     if now_size <= ate:
         now_size, ate = now_size + 1, 0
 print(result)
