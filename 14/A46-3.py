@@ -10,20 +10,18 @@ def bfs():
         x, y = q.popleft()
         for nx, ny in [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]:
             if n > nx >= 0 <= ny < n and array[nx][ny] <= now_size and inf <= dist[nx][ny]:
-                q.append((nx, ny))
                 dist[nx][ny] = dist[x][y] + 1
+                q.append((nx, ny))
     return dist
 
 
 def find(dist):
-    min_dist, x, y = inf, 0, 0
+    min_dist, x, y = inf, None, None
     for _i in range(n):
         for _j in range(n):
-            if now_size > array[_i][_j] >= 1 <= dist[_i][_j] < min_dist:
+            if now_size > array[_i][_j] >= 1 and dist[_i][_j] < min_dist:
                 min_dist, x, y = dist[_i][_j], _i, _j
-    if min_dist < inf:
-        return min_dist, x, y
-    return None
+    return min_dist, x, y
 
 
 n = int(stdin.readline())
@@ -34,10 +32,10 @@ for i in range(n):
             array[i][j], now_x, now_y = 0, i, j
 inf, now_size, ate, result = n ** 2, 2, 0, 0
 while True:
-    value = find(bfs())
-    if value is None:
+    value, now_x, now_y = find(bfs())
+    if value >= inf:
         break
-    now_x, now_y, ate, result = value[1], value[2], ate + 1, result + value[0]
+    ate, result = ate + 1, result + value
     if now_size <= ate:
         now_size, ate = now_size + 1, 0
 print(result)
