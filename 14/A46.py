@@ -47,17 +47,17 @@ while True:
     while bfs:
         x, y = bfs.popleft()
         omnidirectional_append(x, y, distances)
-    x, y = None, None
+    shortest, x, y = longest, None, None
     for i in range(n):
         for j in range(n):
-            if (x is None or y is None or distances[x][y] > distances[i][j]) and size > space[i][j] >= 1:
-                x, y = i, j
-    if x is None or y is None:
+            if distances[i][j] < shortest and size > space[i][j] >= 1:
+                shortest, x, y = distances[i][j], i, j
+    if shortest >= longest:
         break
     eaten += 1
     if size <= eaten:
         size, eaten = size + 1, 0
-    elapsed, distances = distances[x][y] + elapsed, initial_append(x, y)
+    elapsed, distances = elapsed + shortest, initial_append(x, y)
 print(elapsed)
 
 """
@@ -85,4 +85,10 @@ print(elapsed)
 1 2 3 4
 출력 예시 3
 14
+
+4
+4 3 2 1
+0 0 3 0
+0 3 9 3
+1 2 3 4
 """
