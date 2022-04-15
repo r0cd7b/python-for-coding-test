@@ -30,14 +30,13 @@ for i in range(n):
     for j in range(n):
         if array[i][j] >= 9:
             array[i][j], now_x, now_y = 0, i, j
-inf, now_size, ate, result = n ** 2, 2, 0, 0
-while True:
-    value, now_x, now_y = find(bfs())
-    if value >= inf:
-        break
-    ate, result = ate + 1, result + value
+inf, now_size = n ** 2, 2
+(value, now_x, now_y), ate, result = find(bfs()), 0, 0
+while inf > value:
+    ate, result = ate + 1, value + result
     if now_size <= ate:
         now_size, ate = now_size + 1, 0
+    value, now_x, now_y = find(bfs())
 print(result)
 
 """
