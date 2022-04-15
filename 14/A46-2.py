@@ -4,20 +4,18 @@ from collections import deque
 
 
 def bfs():
-    q, dist = deque([(now_x, now_y)]), [[-1] * n for _ in range(n)]
+    q, dist = deque([(now_x, now_y)]), [[inf] * n for _ in range(n)]
     dist[now_x][now_y] = 0
     while q:
         x, y = q.popleft()
-        for _i in range(4):
-            nx, ny = x + [-1, 0, 1, 0][_i], y + [0, 1, 0, -1][_i]
-            if 0 <= nx < n > ny >= 0 > dist[nx][ny] and array[nx][ny] <= now_size:
+        for nx, ny in [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]:
+            if n > nx >= 0 <= ny < n and array[nx][ny] <= now_size and inf <= dist[nx][ny]:
                 q.append((nx, ny))
                 dist[nx][ny] = dist[x][y] + 1
     return dist
 
 
 def find(dist):
-    inf = n ** 2
     min_dist, x, y = inf, 0, 0
     for _i in range(n):
         for _j in range(n):
@@ -34,7 +32,7 @@ for i in range(n):
     for j in range(n):
         if array[i][j] >= 9:
             array[i][j], now_x, now_y = 0, i, j
-now_size, ate, result = 2, 0, 0
+inf, now_size, ate, result = n ** 2, 2, 0, 0
 while True:
     value = find(bfs())
     if value is None:
