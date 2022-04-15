@@ -3,17 +3,6 @@ from sys import stdin
 from collections import deque
 
 
-def find(dist):
-    min_dist, x, y = inf, 0, 0
-    for _i in range(n):
-        for _j in range(n):
-            if now_size > array[_i][_j] >= 1 <= dist[_i][_j] < min_dist:
-                min_dist, x, y = dist[_i][_j], _i, _j
-    if min_dist < inf:
-        return min_dist, x, y
-    return None
-
-
 def bfs():
     q, dist = deque([(now_x, now_y)]), [[inf] * n for _ in range(n)]
     dist[now_x][now_y] = 0
@@ -25,6 +14,17 @@ def bfs():
                 q.append((nx, ny))
                 dist[nx][ny] = dist[x][y] + 1
     return dist
+
+
+def find(dist):
+    min_dist, x, y = inf, 0, 0
+    for _i in range(n):
+        for _j in range(n):
+            if now_size > array[_i][_j] >= 1 <= dist[_i][_j] < min_dist:
+                min_dist, x, y = dist[_i][_j], _i, _j
+    if min_dist < inf:
+        return min_dist, x, y
+    return None
 
 
 n = int(stdin.readline())
