@@ -1,17 +1,41 @@
 # 청소년 상어
 from sys import stdin
 
-space, shark_fish = [[0] * 4 for _ in range(4)], [[0, 0, 0] for _ in range(17)]
+shark_fish, space = [[] for _ in range(17)], [[17] * 4 for _ in range(4)]
 for i in range(4):
     line = list(map(int, stdin.readline().split()))
     for j in range(4):
-        space[i][j], shark_fish[line[j * 2]][0], shark_fish[line[j * 2]][1], shark_fish[line[j * 2]][2] \
-            = line[j * 2], i, j, line[j * 2 + 1]
+        twice = j * 2
+        shark_fish[line[twice]].append(i)
+        shark_fish[line[twice]].append(j)
+        shark_fish[line[twice]].append(line[twice + 1] - 1)
+        space[i][j] = line[twice]
+shark_fish[0].append(0)
+shark_fish[0].append(0)
+shark_fish[0].append(shark_fish[space[0][0]][0])
+shark_fish[space[0][0]].clear()
+x, y, maximum, space[0][0] = [-1, -1, 0, 1, 1, 1, 0, -1], [0, -1, -1, -1, 0, 1, 1, 1], space[0][0], 0
 
-maximum = space[0][0]
-shark_fish[0][2] = shark_fish[space[0][0]][2]
-shark_fish[space[0][0]][2] = 0
-space[0][0] = 0
+for i in range(1, 17):
+    if shark_fish[i]:
+        for j in range(8):
+            next_x = shark_fish[i][0] + x[shark_fish[i][2]]
+            next_y = shark_fish[i][1] + y[shark_fish[i][2]]
+            if (shark_fish[0][0], shark_fish[0][1]) != (next_x, next_y) and 0 <= next_x <= 3 >= next_y >= 0:
+                shark_fish[space[next_x][next_y]][0], \
+                shark_fish[space[next_x][next_y]][1], \
+                space[shark_fish[i][0]][shark_fish[i][1]], \
+                shark_fish[i][0], \
+                shark_fish[i][1], \
+                space[next_x][next_y] = \
+                    shark_fish[i][0], shark_fish[i][1], space[next_x][next_y], next_x, next_y, i
+                break
+            shark_fish[i][2] = (shark_fish[i][2] + 1) % 8
+
+print()
+for s in space:
+    print(s)
+print(shark_fish)
 
 """
 입력 예시 1
