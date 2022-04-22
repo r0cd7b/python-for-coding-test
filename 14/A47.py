@@ -1,77 +1,47 @@
 # 청소년 상어
-from sys import stdin
 from copy import deepcopy
+from sys import stdin
 
-fish = [[] for _ in range(16)]
-space = [[0] * 4 for _ in range(4)]
 
+def move(_fish, _sum):
+    for _i in range(16):
+        if space[_fish[_i][0]][_fish[_i][1]] == _i:
+            for _j in range(8):
+                next_x, next_y = _fish[_i][0] + x[_fish[_i][2]], _fish[_i][1] + y[_fish[_i][2]]
+                if 0 <= next_x <= 3 >= next_y >= 0 and space[next_x][next_y] != 16:
+                    if space[next_x][next_y] <= 15:
+                        _fish[space[next_x][next_y]][0], _fish[space[next_x][next_y]][1] = _fish[_i][0], _fish[_i][1]
+                    space[_fish[_i][0]][_fish[_i][1]], space[next_x][next_y], _fish[_i][0], _fish[_i][1] = \
+                        space[next_x][next_y], _i, next_x, next_y
+                    break
+                _fish[_i][2] = (_fish[_i][2] + 1) % 8
+    next_x, next_y = shark_x + x[direction], shark_y + y[direction]
+    while 0 <= next_x <= 3 >= next_y >= 0:
+        if space[next_x][next_y] <= 15:
+            branched_space = deepcopy(space)
+            branched_space[next_x][next_y], branched_space[shark_x][shark_y], numbers = \
+                16, 17, _sum + space[next_x][next_y] + 1
+            stack.append((_fish, _fish[space[next_x][next_y]][2], next_x, next_y, branched_space, numbers))
+        next_x, next_y = next_x + x[direction], next_y + y[direction]
+
+
+space, fish = [[0] * 4 for _ in range(4)], [[] for _ in range(16)]
 for i in range(4):
     data = list(map(int, stdin.readline().split()))
     for j in range(4):
         twice = j * 2
         number = data[twice] - 1
+        space[i][j] = number
         fish[number].append(i)
         fish[number].append(j)
         fish[number].append(data[twice + 1] - 1)
-        space[i][j] = number
-
-x = [-1, -1, 0, 1, 1, 1, 0, -1]
-y = [0, -1, -1, -1, 0, 1, 1, 1]
-x_coordinate = 0
-y_coordinate = 0
-
-direction = fish[space[0][0]][2]
-maximum = space[0][0] + 1
-space[0][0] = 16
-
-for i in range(16):
-    if space[fish[i][0]][fish[i][1]] == i:
-        for j in range(8):
-            next_x = fish[i][0] + x[fish[i][2]]
-            next_y = fish[i][1] + y[fish[i][2]]
-            if 0 <= next_x <= 3 >= next_y >= 0 and space[next_x][next_y] != 16:
-                fish[space[next_x][next_y]][0] = fish[i][0]
-                fish[space[next_x][next_y]][1] = fish[i][1]
-                space[fish[i][0]][fish[i][1]] = space[next_x][next_y]
-                fish[i][0] = next_x
-                fish[i][1] = next_y
-                space[next_x][next_y] = i
-                break
-            fish[i][2] = (fish[i][2] + 1) % 8
-
-next_x = x_coordinate + x[direction]
-next_y = y_coordinate + y[direction]
-stack = []
-while 0 <= next_x <= 3 >= next_y >= 0:
-    if space[next_x][next_y] < 17:
-        maximum = max(space[next_x][next_y] + maximum + 1, maximum)
-        branched_space = deepcopy(space)
-        branched_space[x_coordinate][y_coordinate] = 17
-        branched_space[next_x][next_y] = 16
-        stack.append((fish[space[next_x][next_y]][2], next_x, next_y, branched_space))
-    next_x += x[direction]
-    next_y += y[direction]
-
+direction, maximum, space[0][0], x, y, shark_x, shark_y, stack = \
+    fish[space[0][0]][2], space[0][0] + 1, 16, [-1, -1, 0, 1, 1, 1, 0, -1], [0, -1, -1, -1, 0, 1, 1, 1], 0, 0, []
+move(fish, maximum)
 while stack:
-    direction, x_coordinate, y_coordinate, space = stack.pop()
-
-    for i in range(16):
-        if space[fish[i][0]][fish[i][1]] == i:
-            for j in range(8):
-                next_x = fish[i][0] + x[fish[i][2]]
-                next_y = fish[i][1] + y[fish[i][2]]
-                if 0 <= next_x <= 3 >= next_y >= 0 and space[next_x][next_y] != 16:
-                    branched_fish = deepcopy(fish)
-
-                    branched_fish[space[next_x][next_y]][0] = fish[i][0]
-                    branched_fish[space[next_x][next_y]][1] = fish[i][1]
-                    space[fish[i][0]][fish[i][1]] = space[next_x][next_y]
-                    branched_fish[i][0] = next_x
-                    branched_fish[i][1] = next_y
-                    space[next_x][next_y] = i
-                    break
-                fish[i][2] = (fish[i][2] + 1) % 8
-
+    fish, direction, shark_x, shark_y, space, sum_ = stack.pop()
+    branched_fish, maximum = deepcopy(fish), max(maximum, sum_)
+    move(branched_fish, sum_)
 print(maximum)
 
 """
