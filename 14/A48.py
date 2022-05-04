@@ -6,6 +6,9 @@ def move(_x, _y):
     grids[_x][_y].append(shark)
     sharks[shark][2] = _x
     sharks[shark][3] = _y
+    # 맵과, 냄새 리스트에 냄새 추가
+    # 맵에는 냄새(상어) 번호
+    # 냄새 리스트에는 좌표와 잔여 시간
 
 
 N, M, K = map(int, stdin.readline().split())
@@ -60,6 +63,8 @@ for shark in sharks:
                 for k in range(-1, -len(grids[i][j]), -1):
                     del shark[grids[i][j][k]]
                     del grids[i][j][k]
+
+    # 냄새 잔여 시간 확인 후 삭제
 
 for g in grids:
     print(g)
