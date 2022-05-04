@@ -1,27 +1,70 @@
 # 어른 상어
 from sys import stdin
 
-n, m, k = map(int, stdin.readline().split())
-grid = [[int(s) - 1 for s in stdin.readline().split()] for _ in range(n)]
-direction = [int(s) - 1 for s in stdin.readline().split()]
-priority = [[[int(s) - 1 for s in stdin.readline().split()] for _ in range(4)] for _ in range(m)]
 
-position = {}
-smell = {}
-for i in range(n):
-    for j in range(n):
-        if grid[i][j] >= 0:
-            position[grid[i][j]] = (i, j)
-            # smell[]
+def move(_x, _y):
+    grids[_x][_y].append(shark)
+    sharks[shark][2] = _x
+    sharks[shark][3] = _y
 
-x = [-1, 1, 0, 0]
-y = [0, 0, -1, 1]
-move = {}
-for shark in position:
-    for direction_check in priority[shark][direction[shark]]:
-        next_x = position[shark][0] + x[direction_check]
-        next_y = position[shark][1] + y[direction_check]
-        # if 0 <= next_x < n > next_y >= 0 and :
+
+N, M, K = map(int, stdin.readline().split())
+
+grids: list[list[list[int]]] = [[[] for _ in range(N)] for _ in range(N)]
+for i in range(N):
+    string = stdin.readline().split()
+    for j in range(N):
+        if string[j] != '0':
+            grids[i][j].append(int(string[j]))
+
+string = stdin.readline().split()
+sharks = {i + 1: [int(string[i]) - 1] for i in range(M)}
+
+for i in range(M):
+    sharks[i + 1].append(tuple(tuple(int(string) - 1 for string in stdin.readline().split()) for _ in range(4)))
+
+for i in range(N):
+    for j in range(N):
+        if grids[i][j]:
+            sharks[grids[i][j][0]].append(i)
+            sharks[grids[i][j][0]].append(j)
+
+vectors = ((-1, 1, 0, 0), (0, 0, -1, 1))
+for shark in sharks:
+    go = []
+
+    for direction in sharks[shark][1][sharks[shark][0]]:
+        next_ = (sharks[shark][2] + vectors[0][direction], sharks[shark][3] + vectors[1][direction])
+        if 0 <= next_[0] < N > next_[1] >= 0:
+            go.append((next_[0], next_[1]))
+
+    for x, y in go:
+        if not grids[x][y]:
+            move(x, y)
+            break
+    else:
+        for x, y in go:
+            if grids[x][y][0] == shark:
+                move(x, y)
+                break
+
+    for i in range(N):
+        for j in range(N):
+            if len(grids[i][j]) > 1:
+                index = 0
+                for k in range(1, len(grids[i][j])):
+                    if grids[i][j][index] > grids[i][j][k]:
+                        index = k
+                if index > 0:
+                    grids[i][j][index], grids[i][j][0] = grids[i][j][0], grids[i][j][index]
+
+                for k in range(-1, -len(grids[i][j]), -1):
+                    del shark[grids[i][j][k]]
+                grids[i][j] = [grids[i][j][index]]
+
+for g in grids:
+    print(g)
+print(sharks)
 
 """
 입력 예시 1
