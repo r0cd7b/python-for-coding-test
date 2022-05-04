@@ -57,10 +57,9 @@ for shark in sharks:
                         index = k
                 if index > 0:
                     grids[i][j][index], grids[i][j][0] = grids[i][j][0], grids[i][j][index]
-
                 for k in range(-1, -len(grids[i][j]), -1):
                     del shark[grids[i][j][k]]
-                grids[i][j] = [grids[i][j][index]]
+                    del grids[i][j][k]
 
 for g in grids:
     print(g)
