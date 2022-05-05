@@ -37,14 +37,14 @@ for i in range(1, 1001):
                     all_movements.append((number, direction, x, y))
                     break
 
-    erase = []
+    disappear = []
     for x, y in times:
         if times[(x, y)] < 2:
             spaces[x][y] = -1
-            erase.append((x, y))
+            disappear.append((x, y))
         else:
             times[(x, y)] -= 1
-    for x, y in erase:
+    for x, y in disappear:
         del times[(x, y)]
 
     for number, direction, x, y in all_movements:
