@@ -17,7 +17,6 @@ directions = [int(input_) - 1 for input_ in stdin.readline().split()]
 priorities = [[[int(input_) - 1 for input_ in stdin.readline().split()] for _ in range(4)] for _ in range(M)]
 
 changes_direction = ((-1, 0), (1, 0), (0, -1), (0, 1))
-
 for i in range(1, 1001):
     all_movements = []
 
