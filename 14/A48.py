@@ -1,6 +1,12 @@
 # 어른 상어
 from sys import stdin
 
+
+def move():
+    coordinates[number] = (x, y)
+    directions[number] = direction
+
+
 N, M, K = map(int, stdin.readline().split())
 coordinates: dict[int, tuple[int, int]] = {}
 spaces = [[-1] * N for _ in range(N)]
@@ -49,21 +55,18 @@ for i in range(1, 1001):
 
     for number, direction, x, y in all_movements:
         if spaces[x][y] < 0:
-            coordinates[number] = (x, y)
+            move()
             spaces[x][y] = number
             times[(x, y)] = K
-            directions[number] = direction
         elif spaces[x][y] < number:
             del coordinates[number]
         elif spaces[x][y] == number:
-            coordinates[number] = (x, y)
+            move()
             times[(x, y)] = K
-            directions[number] = direction
         else:
+            move()
             del coordinates[spaces[x][y]]
-            coordinates[number] = (x, y)
             spaces[x][y] = number
-            directions[number] = direction
 
     if len(coordinates) < 2:
         print(i)
