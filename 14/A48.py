@@ -2,7 +2,7 @@
 from sys import stdin
 
 N, M, K = map(int, stdin.readline().split())
-coordinates = {}
+coordinates: dict[int, tuple[int, int]] = {}
 spaces = [[-1] * N for _ in range(N)]
 times = {}
 for i in range(N):
