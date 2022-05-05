@@ -1,87 +1,72 @@
 # 어른 상어
 from sys import stdin
 
-
-def allocate_shark(_x, _y, _shark):
-    grids[_x][_y].append(K)
-    grids[_x][_y].append(_shark)
-    smells.append((_x, _y))
-
-
-def move_shark():
-    sharks[shark][0] = direction
-    sharks[shark][2] = x
-    sharks[shark][3] = y
-
-
 N, M, K = map(int, stdin.readline().split())
-grids: list[list[list[int]]] = [[[] for _ in range(N)] for _ in range(N)]
-smells = []
+coordinates = {}
+spaces = [[-1] * N for _ in range(N)]
+times = {}
 for i in range(N):
-    string = stdin.readline().split()
+    inputs = stdin.readline().split()
     for j in range(N):
-        if string[j] != '0':
-            allocate_shark(i, j, int(string[j]))
-string = stdin.readline().split()
-sharks = {i + 1: [int(string[i]) - 1] for i in range(M)}
-for i in range(M):
-    sharks[i + 1].append(tuple(tuple(int(string) - 1 for string in stdin.readline().split()) for _ in range(4)))
+        if inputs[j] != '0':
+            number = int(inputs[j]) - 1
+            coordinates[number] = (i, j)
+            spaces[i][j] = number
+            times[(i, j)] = K
+directions = [int(input_) - 1 for input_ in stdin.readline().split()]
+priorities = [[[int(input_) - 1 for input_ in stdin.readline().split()] for _ in range(4)] for _ in range(M)]
 
-for i in range(N):
-    for j in range(N):
-        if grids[i][j]:
-            sharks[grids[i][j][1]].append(i)
-            sharks[grids[i][j][1]].append(j)
-vectors = ((-1, 1, 0, 0), (0, 0, -1, 1))
+changes_direction = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
-for i in range(3):
-    for g in grids:
-        print(g)
-    print(sharks)
-    print(smells)
-    print()
+for i in range(1, 1001):
+    all_movements = []
 
-    for shark in sharks:
-        go = []
-        for direction in sharks[shark][1][sharks[shark][0]]:
-            next_ = (sharks[shark][2] + vectors[0][direction], sharks[shark][3] + vectors[1][direction])
-            if 0 <= next_[0] < N > next_[1] >= 0:
-                go.append((direction, next_[0], next_[1]))
-        for direction, x, y in go:
-            if not grids[x][y]:
-                allocate_shark(x, y, shark)
-                move_shark()
+    for number in coordinates:
+        movements = []
+        for direction in priorities[number][directions[number]]:
+            x = coordinates[number][0] + changes_direction[direction][0]
+            y = coordinates[number][1] + changes_direction[direction][1]
+            if 0 <= x <= N - 1 >= y >= 0:
+                movements.append((direction, x, y))
+        for direction, x, y in movements:
+            if spaces[x][y] < 0:
+                all_movements.append((number, direction, x, y))
                 break
         else:
-            for direction, x, y in go:
-                if grids[x][y][1] == shark:
-                    grids[x][y][0] = K
-                    move_shark()
+            for direction, x, y in movements:
+                if spaces[x][y] == number:
+                    all_movements.append((number, direction, x, y))
                     break
 
-    for j in range(N):
-        for k in range(N):
-            if len(grids[j][k]) > 2:
-                index = 1
-                for m in range(2, len(grids[j][k])):
-                    if grids[j][k][index] > grids[j][k][m]:
-                        index = m
-                grids[j][k][index], grids[j][k][1] = grids[j][k][1], grids[j][k][index]
-                for m in range(2, len(grids[j][k])):
-                    del sharks[grids[j][k][m]]
-                grids[j][k] = [grids[j][k][0], grids[j][k][index]]
-
-    new_smells = []
-    while smells:
-        smell = smells.pop()
-        if grids[smell[0]][smell[1]][0] > 1:
-            grids[smell[0]][smell[1]][0] -= 1
-            new_smells.append(smell)
+    erase = []
+    for x, y in times:
+        if times[(x, y)] < 2:
+            spaces[x][y] = -1
+            erase.append((x, y))
         else:
-            grids[smell[0]][smell[1]].clear()
-    smells = new_smells
+            times[(x, y)] -= 1
+    for x, y in erase:
+        del times[(x, y)]
 
-    if len(sharks) < 2:
+    for number, direction, x, y in all_movements:
+        if spaces[x][y] < 0:
+            coordinates[number] = (x, y)
+            spaces[x][y] = number
+            times[(x, y)] = K
+            directions[number] = direction
+        elif spaces[x][y] < number:
+            del coordinates[number]
+        elif spaces[x][y] == number:
+            coordinates[number] = (x, y)
+            times[(x, y)] = K
+            directions[number] = direction
+        else:
+            del coordinates[spaces[x][y]]
+            coordinates[number] = (x, y)
+            spaces[x][y] = number
+            directions[number] = direction
+
+    if len(coordinates) < 2:
         print(i)
         break
 else:
