@@ -6,7 +6,7 @@ def solution(queue1, queue2):
     if difference == 0:
         return 0
     deque1, deque2 = deque(queue1), deque(queue2)
-    for i in range(1, len(deque1) + len(deque2)):
+    for i in range(1, len(queue1) + len(queue2)):
         if difference < 0:
             deque1.append(deque2.popleft())
             difference += deque1[-1] * 2
