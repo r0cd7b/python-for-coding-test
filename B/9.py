@@ -5,7 +5,7 @@ from math import sqrt
 m, n = map(int, stdin.readline().split())
 
 prime = [False] + [True] * (n - 1)
-for i in range(1, int(sqrt(n)) - 1):
+for i in range(1, int(sqrt(n))):
     if prime[i]:
         i += 1
         j = i * 2
