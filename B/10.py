@@ -2,9 +2,19 @@
 from sys import stdin
 from itertools import combinations
 
-L, C = map(int, stdin.readline().split())
-characters = sorted(stdin.readline().split())
+(L, C), characters, vowels = \
+    map(int, stdin.readline().split()), sorted(stdin.readline().split()), {'a', 'e', 'i', 'o', 'u'}
 for combination in combinations(characters, L):
+    number_vowels, number_consonants = 0, 0
+    for character in combination:
+        if character in vowels:
+            number_vowels += 1
+        else:
+            number_consonants += 1
+        if number_vowels >= 1 and number_consonants >= 2:
+            break
+    else:
+        continue
     print(''.join(combination))
 
 """
@@ -25,6 +35,5 @@ astw
 cist
 cisw
 citw
-cstw
 istw
 """
