@@ -5,10 +5,12 @@ from math import sqrt
 m, n = map(int, stdin.readline().split())
 
 prime = [True] * (n - 1)
-for i in range(2, int(sqrt(n)) + 1):
-    j = i * 2
-    while j <= n:
-        prime[j - 2], j = False, i + j
+for i in range(int(sqrt(n)) - 2):
+    if prime[i]:
+        i += 2
+        j = i * 2
+        while j <= n:
+            prime[j - 2], j = False, i + j
 
 for i in range(m - 2, n - 1):
     if prime[i]:
