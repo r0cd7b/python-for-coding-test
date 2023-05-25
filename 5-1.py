@@ -1,24 +1,23 @@
-def dfs_iterative(graph_, v, visited_):
-    stack, visited_[v] = [v], True
+def dfs_iterative(graph_, v, visited):
     print(v + 1, end=' ')
+    visited[v], stack = True, [v]
     while stack:
-        v = stack[-1]
-        for i in graph_[v]:
-            if not visited_[i]:
-                stack.append(i)
-                visited_[i] = True
+        for i in graph_[stack[-1]]:
+            if not visited[i]:
                 print(i + 1, end=' ')
+                visited[i] = True
+                stack.append(i)
                 break
         else:
             stack.pop()
 
 
-def dfs_recursive(graph_, v, visited_):
+def dfs_recursive(graph_, v, visited):
     print(v + 1, end=' ')
-    visited_[v] = True
+    visited[v] = True
     for i in graph_[v]:
-        if not visited_[i]:
-            dfs_recursive(graph_, i, visited_)
+        if not visited[i]:
+            dfs_recursive(graph_, i, visited)
 
 
 graph = [[1, 2, 7], [0, 6], [0, 3, 4], [2, 4], [2, 3], [6], [1, 5, 7], [0, 6]]
