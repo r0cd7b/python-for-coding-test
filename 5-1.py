@@ -1,43 +1,44 @@
-from collections import deque
+# 음료수 얼려 먹기
+from sys import stdin
 
 
-def dfs_iterative(graph_, v, visited):
-    print(v + 1, end=' ')
-    visited[v], stack = True, [v]
-    while stack:
-        for i in graph_[stack[-1]]:
-            if not visited[i]:
-                print(i + 1, end=' ')
-                visited[i] = True
-                stack.append(i)
-                break
-        else:
-            stack.pop()
+def dfs(n__, m__):
+    frame[n__][m__] = '2'
+    for vertical, horizontal in vectors:
+        next_n, next_m = n__ + vertical, m__ + horizontal
+        if n > next_n >= 0 <= next_m < m and frame[next_n][next_m] == '0':
+            dfs(next_n, next_m)
 
 
-def dfs_recursive(graph_, v, visited):
-    print(v + 1, end=' ')
-    visited[v] = True
-    for i in graph_[v]:
-        if not visited[i]:
-            dfs_recursive(graph_, i, visited)
+size = stdin.readline().split()
+n, m = int(size[0]), int(size[1])
+frame = [[shape for shape in stdin.readline().strip()] for _ in range(n)]
 
+vectors, creams = ((-1, 0), (1, 0), (0, -1), (0, 1)), 0
+for n_ in range(n):
+    for m_ in range(m):
+        if frame[n_][m_] == '0':
+            dfs(n_, m_)
+            creams += 1
 
-def bfs(graph_, v, visited):
-    visited[v], queue = True, deque([v])
-    while queue:
-        v = queue.popleft()
-        print(v + 1, end=' ')
-        for i in graph_[v]:
-            if not visited[i]:
-                visited[i] = True
-                queue.append(i)
+print(creams)
+"""
+15 14
+00000111100000
+11111101111110
+11011101101110
+11011101100000
+11011111111111
+11011111111100
+11000000011111
+01111111111111
+00000000011111
+01111111111000
+00011111111000
+00000001111000
+11111111110011
+11100011111111
+11100011111111
 
-
-graph = [[1, 2, 7], [0, 6], [0, 3, 4], [2, 4], [2, 3], [6], [1, 5, 7], [0, 6]]
-dfs_iterative(graph, 0, [False] * 8)
-print()
-dfs_recursive(graph, 0, [False] * 8)
-print()
-bfs(graph, 0, [False] * 8)
-print()
+8
+"""

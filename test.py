@@ -1,7 +1,10 @@
-import tf_agents.environments.wrappers
+from timeit import timeit
 
-for name in dir(tf_agents.environments.wrappers):
-    obj = getattr(tf_agents.environments.wrappers, name)
-    if hasattr(obj, "__base__") and issubclass(obj, tf_agents.environments.PyEnvironmentBaseWrapper):
-        n = '\n'
-        print(f"{name:27s} {obj.__doc__.split(n)[0]}")
+
+print(timeit("""
+b, c = map(int, ["15", "14"])
+"""))
+print(timeit("""
+a = ["15", "14"]
+b, c = int(a[0]), int(a[1])
+"""))
