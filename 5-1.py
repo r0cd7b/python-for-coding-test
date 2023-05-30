@@ -1,3 +1,6 @@
+from collections import deque
+
+
 def dfs_iterative(graph_, v, visited):
     print(v + 1, end=' ')
     visited[v], stack = True, [v]
@@ -20,8 +23,21 @@ def dfs_recursive(graph_, v, visited):
             dfs_recursive(graph_, i, visited)
 
 
+def bfs(graph_, v, visited):
+    visited[v], queue = True, deque([v])
+    while queue:
+        v = queue.popleft()
+        print(v + 1, end=' ')
+        for i in graph_[v]:
+            if not visited[i]:
+                visited[i] = True
+                queue.append(i)
+
+
 graph = [[1, 2, 7], [0, 6], [0, 3, 4], [2, 4], [2, 3], [6], [1, 5, 7], [0, 6]]
 dfs_iterative(graph, 0, [False] * 8)
 print()
 dfs_recursive(graph, 0, [False] * 8)
+print()
+bfs(graph, 0, [False] * 8)
 print()
