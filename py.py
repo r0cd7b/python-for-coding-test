@@ -1,10 +1,8 @@
 from timeit import timeit
 
 print(timeit('''
-a, b, c = 'a b c'.split()
-a, b, c
+a = [int(s) for s in '0 1 2'.split()]
 '''))
 print(timeit('''
-a = 'a b c'.split()
-a[0], a[1], a[2]
+a = list(map(int, '0 1 2'.split()))
 '''))
