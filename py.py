@@ -1,8 +1,9 @@
 from timeit import timeit
 
 print(timeit('''
-a = [int(s) for s in '0 1 2'.split()]
+a, b = 0, 0
 '''))
 print(timeit('''
-a = list(map(int, '0 1 2'.split()))
+a = 0
+b = 0
 '''))

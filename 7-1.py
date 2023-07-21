@@ -1,27 +1,27 @@
 from sys import stdin
 
 
-# def binary_search(start, end):
-#     if start > end:
-#         return -1
-#     mid = (start + end) // 2
-#     if target == array[mid]:
-#         return mid
-#     if target > array[mid]:
-#         return binary_search(mid + 1, end)
-#     return binary_search(start, mid - 1)
-
-
 def binary_search(start, end):
-    while start <= end:
-        mid = (start + end) // 2
-        if target == array[mid]:
-            return mid
-        if target > array[mid]:
-            start = mid + 1
-        else:
-            end = mid - 1
-    return -1
+    if start > end:
+        return -1
+    mid = (start + end) // 2
+    if target == array[mid]:
+        return mid
+    if target < array[mid]:
+        return binary_search(start, mid - 1)
+    return binary_search(mid + 1, end)
+
+
+# def binary_search(start, end):
+#     while start <= end:
+#         mid = (start + end) // 2
+#         if target == array[mid]:
+#             return mid
+#         if target > array[mid]:
+#             start = mid + 1
+#         else:
+#             end = mid - 1
+#     return -1
 
 
 n, target = stdin.readline().split()
