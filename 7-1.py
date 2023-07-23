@@ -1,3 +1,4 @@
+# 범위를 반씩 좁혀가는 탐색
 from sys import stdin
 
 
@@ -5,11 +6,11 @@ def binary_search(start, end):
     if start > end:
         return -1
     mid = (start + end) // 2
-    if target == array[mid]:
-        return mid
     if target < array[mid]:
         return binary_search(start, mid - 1)
-    return binary_search(mid + 1, end)
+    if target > array[mid]:
+        return binary_search(mid + 1, end)
+    return mid
 
 
 # def binary_search(start, end):

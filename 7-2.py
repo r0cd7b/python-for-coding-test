@@ -1,3 +1,4 @@
+# 부품 찾기
 from sys import stdin
 
 stdin.readline()
