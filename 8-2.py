@@ -21,3 +21,8 @@ for integer in range(2, x + 1):
     minimums[integer - 1] = minimum
 
 print(minimums[-1])
+'''
+26
+
+3
+'''
